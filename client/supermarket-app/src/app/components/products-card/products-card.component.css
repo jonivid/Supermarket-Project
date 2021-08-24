@@ -1,0 +1,38 @@
+.product-img {
+  width: 150px;
+  height: 150px;
+  align-self: center;
+  transition: 0.3s ease-in-out;
+}
+
+.product-img:hover {
+  transition: 0.3s ease-in-out;
+  transform: scale(1.1);
+}
+
+.card {
+  border: 1px solid black;
+  width: 300px;
+  height: 300px;
+  margin: 15px;
+}
+
+.card:hover {
+  filter: drop-shadow(0 0 0.75rem rgb(31, 160, 160));
+}
+
+.add-to-cart {
+  color: rgb(22, 87, 71);
+  margin: 10px;
+  width: 100px;
+  align-self: center;
+  border-radius: 12px;
+}
+
+.add-to-cart:hover {
+  font-weight: bolder;
+  color: rgb(0, 6, 10);
+  width: 120px;
+  transition: width 0.5s;
+  background-color: rgb(114, 224, 197);
+}

@@ -1,0 +1,40 @@
+.products-container {
+  padding-top: 30px;
+  display: inline-block;
+  align-items: center;
+
+}
+
+.categories-container {
+  margin-bottom: 10px;
+  left: 4px;
+  top: 69px;
+  position: absolute;
+  width: 1512px;
+  text-align: center;
+  border-bottom: 3px solid black;
+  background-color: rgb(124, 218, 218);
+  height: 48px;
+  align-items: center;
+  padding-top: 13px;
+}
+
+.category {
+  margin: 5px;
+  font-weight: 500;
+}
+
+.category:hover {
+  color: rgb(48, 3, 3);
+  font-weight: bolder;
+}
+
+.search-by-name {
+  border: none;
+  height: 20px;
+}
+
+.search-by-name:focus {
+  border: none;
+  background-color: white;
+}

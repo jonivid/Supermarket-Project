@@ -1,0 +1,16 @@
+
+
+    <div class='categories-container fixed-top'>
+        <span (click)= "getAllProducts()" class="category">All </span>
+        <span class="category" *ngFor='let category of categoriesService.categories' (click)= "filterByCategory(category)">{{category.name}} </span>
+        <span><input type="text"  [(ngModel)]="productName" placeholder="Search product by name" 
+            class="search-by-name"></span>
+    </div>
+    
+    <div class="products-container">
+
+        <div *ngFor='let currentProduct of productsService.products | categories :categoryFilter | byProductName :productName' class='products-container '>
+            <app-products-card [data]='currentProduct' ></app-products-card>
+        </div>
+    </div>
+

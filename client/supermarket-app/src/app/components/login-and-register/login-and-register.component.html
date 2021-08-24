@@ -1,0 +1,72 @@
+<button mat-raised-button color="primary" *ngIf="isHandleSignUp" (click)='handleSignUp()'>Click here to create your own account</button>
+<button mat-raised-button color="primary" *ngIf="isHandleSignIn" (click)='handleSignIn()'>Click here if you are already have an account</button>
+<!-- <span *ngIf="isHandleSignUp" (click)='handleSignUp()'> Click here to create your own account</span>
+<span *ngIf="isHandleSignIn" (click)='handleSignIn()' >Click here if you are already have an account </span>  -->
+<hr>
+
+<div *ngIf="stepOneLogin">
+    <form #loginForm='ngForm'>
+        <h1>Login</h1>
+        <input type="text" placeholder="User name" name="email"  autocomplete="on"
+        #userNameInput='ngModel' [(ngModel)]="userLoginDetails.email" required><br>
+        <span *ngIf="userNameInput.touched && userNameInput.errors?.required">"username field is empty"</span><br>
+        <input type="password" placeholder="Password" name="password"  autocomplete="on"
+        #passwordInput='ngModel' [(ngModel)]="userLoginDetails.password" required minlength="8" maxlength="12"><br>
+        <span *ngIf="passwordInput.errors?.minlength">"password min length 8 characthers"</span><br>
+        <span *ngIf="passwordInput.errors?.maxlength">"password max length 12 characthers"</span><br>
+        <!-- <input  type="button" (click)="login()" value="Login" [disabled]='loginForm.form.invalid'/> -->
+        <button mat-raised-button color="accent" (click)="login()" [disabled]='loginForm.form.invalid'>Login</button>
+
+    </form>
+</div>
+
+<div *ngIf="stepOneRegister">
+    <form #registerForm='ngForm'>
+        <h1>Register</h1>
+        <input type="text" placeholder="Id Number" name="idNumber"  autocomplete="on" 
+        #IdNumberInput='ngModel' [(ngModel)]="userRegisterDetails.idNumber" required minlength="8" maxlength="9"><br>
+        <span *ngIf="IdNumberInput.errors?.minlength">"Id number minlength 8 characthers"<br></span>
+        <span *ngIf="IdNumberInput.errors?.maxlength">"Id number maxlength 9 characthers"<br></span>
+        <input type="email" placeholder="email" name="email"  autocomplete="on"
+        #emailInput='ngModel' [(ngModel)]="userRegisterDetails.email" required ngModel [email]="true"><br>
+        <span *ngIf="emailInput.errors?.email">"you need to fill value in email format"<br></span>
+        <input type="password" placeholder="Password" name="password"  autocomplete="on"
+        #passwordInputRegister='ngModel' [(ngModel)]="userRegisterDetails.password" required minlength="8" maxlength="12"><br>
+        <span *ngIf="passwordInputRegister.errors?.minlength">"password min length 8 characthers"<br></span>
+        <span *ngIf="passwordInputRegister.errors?.maxlength">"password max length 12 characthers"<br></span>
+        <input type="password" placeholder="Confirm Password" name="confirmPassword"  autocomplete="on"
+        #confirmPasswordInput='ngModel' [(ngModel)]="userRegisterDetails.confirmPassword" required minlength="8" maxlength="12"><br>
+        <span *ngIf="confirmPasswordInput.errors?.minlength">"password min length 8 characthers"<br></span>
+        <span *ngIf="confirmPasswordInput.errors?.maxlength">"password max length 12 characthers"<br></span>
+        <!-- <input type="button" (click)="handleFormState()" value="next step"  [disabled]='registerForm.form.invalid' />  -->
+        <button mat-raised-button color="accent" (click)="handleFormState()"   [disabled]='registerForm.form.invalid'>next step</button>
+
+    </form>
+</div>
+
+<div *ngIf='stepTwo'> 
+    <h1>step 2</h1>
+    <form #registerForm='ngForm'>
+        <select [ngModel]="userRegisterDetails.city" (ngModelChange)="onChange($event)" name="city" required
+        #cityInput='ngModel'>
+            <option *ngFor="let city of cities">{{city}}</option>
+        </select><br>
+        <span *ngIf="cityInput.touched && cityInput.errors?.required">"please choose a city"<br></span>
+        
+        <input type="text" placeholder="Street address" name="street"  autocomplete="on" required #streetInput='ngModel'
+        [(ngModel)]="userRegisterDetails.street"><br>
+        <span *ngIf="streetInput.touched && streetInput.errors?.required">"please fill street input"<br></span>
+       
+        <input type="text" placeholder="First Name" name="firstName"  autocomplete="on" required #firstNameInput='ngModel'
+        [(ngModel)]="userRegisterDetails.firstName"><br>
+        <span *ngIf="firstNameInput.touched && firstNameInput.errors?.required">"please fill first name input"<br></span>
+
+        <input type="text" placeholder="Last Name" name="lastName"  autocomplete="on" required #lastNameInput='ngModel'
+        [(ngModel)]="userRegisterDetails.lastName"><br>
+        <span *ngIf="lastNameInput.touched && lastNameInput.errors?.required">"please fill last name input"<br></span>
+
+        <!-- <input type="button" (click)="register()" value="register"  [disabled]='registerForm.form.invalid'/>  -->
+        <button mat-raised-button color="accent" (click)="register()" [disabled]='registerForm.form.invalid'>register</button>
+
+    </form>
+</div>

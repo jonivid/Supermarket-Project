@@ -1,0 +1,24 @@
+<div *ngIf="!stateService.isLoggedIn">
+    <app-home></app-home>
+</div>
+<div *ngIf="stateService.isLoggedIn ">
+    <button (click)="removeAllCart()">empty cart</button><hr>
+    <div class="item-container"  *ngFor="let item of products; let i = index">
+    <div class="cart-item"> 
+        <img src="{{item.item.image}}" alt="{{item.item.name}}" class="cart-item-img">
+        <div class="cart-item-details">
+            <p class="item-name"><b>{{item.item.name}}</b></p>
+            <p> Quantity: <b>{{item.quantity}}</b> price <b>{{item.totalPrice}} $</b></p>
+            <p>category: <b>{{item.item.categoryName}}</b> </p>
+            <button class="cart-item-remove" (click)="removeItem(item)"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </div>
+    <hr>
+    </div>
+    <div class="cart-bottom-content">
+        <div class="order-total">total price: {{grandTotal}}</div>
+        <div>
+            <button class="order-btn">Order</button>
+        </div>
+    </div>
+</div>
