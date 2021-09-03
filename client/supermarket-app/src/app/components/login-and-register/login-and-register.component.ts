@@ -1,9 +1,11 @@
+import { ProductsService } from './../../services/products.service';
 import { UserDetails } from '../../models/UserDetails';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLoginDetails } from 'src/app/models/UserLoginDetails';
 import { UsersService } from 'src/app/services/users.service';
 import { StateService } from 'src/app/services/state.service';
+import { CartsService } from 'src/app/services/carts.service';
 
 @Component({
   selector: 'app-login-and-register',
@@ -13,6 +15,7 @@ import { StateService } from 'src/app/services/state.service';
 export class LoginAndRegisterComponent implements OnInit {
   userLoginDetails: UserLoginDetails = new UserLoginDetails('', '');
   userRegisterDetails: UserDetails = new UserDetails();
+  productsCount: number = 0;
 
   public cities: string[] = [
     'Ashdod',
@@ -36,10 +39,22 @@ export class LoginAndRegisterComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private router: Router,
-    private stateService: StateService
+    private stateService: StateService,
+    public cartService: CartsService,
+    public productsService: ProductsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let observableProducts = this.productsService.getAllProducts();
+    observableProducts.subscribe(
+      (productsList) => {
+        // console.log(productsList);
+        this.productsCount = productsList.length;
+      },
+      (error) => {
+        console.log(error);
+      })
+      }
 
   onChange(newValue: string) {
     this.userRegisterDetails.city = newValue;
@@ -72,12 +87,10 @@ export class LoginAndRegisterComponent implements OnInit {
     );
     registerObservable.subscribe(
       (successfulServerRequestData) => {
-        console.log(successfulServerRequestData);
+        // console.log(successfulServerRequestData);
         this.router.navigate(['/customer']);
       },
       (serverErrorResponse) => {
-        // Reaching here means that the server had failed
-        // serverErrorResponse is the object returned from the ExceptionsHandler
         alert(
           'Error! Status: ' +
             serverErrorResponse.status +
@@ -102,8 +115,9 @@ export class LoginAndRegisterComponent implements OnInit {
         if (successfulServerRequestData.isAdmin == 'ADMIN') {
           localStorage.setItem('userFirstName', 'admin');
           this.router.navigate(['/admin']);
-        }
+        } 
         else if (successfulServerRequestData.isAdmin == 'CUSTOMER') {
+          this.stateService.toggleIsCartContainer();
           localStorage.setItem(
             'userFirstName',
             successfulServerRequestData.userDetails.firstName
@@ -111,6 +125,38 @@ export class LoginAndRegisterComponent implements OnInit {
           localStorage.setItem(
             'userId',
             JSON.stringify(successfulServerRequestData.userDetails.id)
+          );
+
+          let cartObservable = this.cartService.getCart(
+            localStorage.getItem('userId')
+          );
+          cartObservable.subscribe(
+            (cart) => {
+              if (cart) {
+                if (cart.status === 'open') {
+                  this.cartService.currentCart = cart;
+                  this.cartService.getProductsList().subscribe((res) => {
+                    this.cartService.cartItemList = res;
+                    this.cartService.productList.next(res);
+                  });
+                }
+              } else {
+                let newCartObservable = this.cartService.createNewCart(
+                  localStorage.getItem('userId')
+                );
+                newCartObservable.subscribe(
+                  (cart) => {
+                    this.cartService.currentCart = cart;
+                    console.log(
+                      'we created a new cart cart',
+                      this.cartService.currentCart
+                    );
+                  },
+                  (error) => {}
+                );
+              }
+            },
+            (error) => {}
           );
           this.router.navigate(['/customer']);
         }

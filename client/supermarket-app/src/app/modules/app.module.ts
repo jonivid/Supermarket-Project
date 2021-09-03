@@ -27,6 +27,10 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { CartPageComponent } from '../components/cart-page/cart-page.component';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatTableModule} from '@angular/material/table';
+import { AboutUsComponent } from '../components/about-us/about-us.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     ProductModalComponent,
     CartContainerComponent,
     NavbarComponent,
+    CartPageComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +63,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule,
+    MatTableModule
+    
   ],
   providers: [AuthenticationInterceptor],
   bootstrap: [LayoutComponent],

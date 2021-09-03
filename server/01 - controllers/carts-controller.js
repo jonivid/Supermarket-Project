@@ -4,9 +4,9 @@ const router = express.Router();
 let cacheModule = require("../02 - logic/cache-module");
 
 // Get customer's cart
-router.get("/", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
-        let customerId = cacheModule.extractUserDataFromCache(req).id;
+        let customerId = req.params.id
         let customerCart = await cartsLogic.getCustomersCart(customerId);
         res.json(customerCart);
     }
@@ -17,10 +17,9 @@ router.get("/", async (req, res, next) => {
 
 // Create new cart
 router.post("/", async (req, res, next) => {
-    let currentDate = req.body.currentDate;
-
+    let customerId = req.body.id
+    let currentDate = req.body.date
     try {
-        let customerId = cacheModule.extractUserDataFromCache(req).id;
         let customerCart = await cartsLogic.createCart(customerId, currentDate);
         res.json(customerCart);
     }
@@ -30,9 +29,10 @@ router.post("/", async (req, res, next) => {
 });
 
 // Get cart's items
-router.get("/items", async (req, res, next) => {
+router.get("/items/:cartId", async (req, res, next) => {
+    let cartIt = req.params.cartId
     try {
-        let cartItems = await cartsLogic.getCartItems();
+        let cartItems = await cartsLogic.getCartItems(cartIt);
         res.json(cartItems);
     }
     catch (err) {
@@ -42,13 +42,12 @@ router.get("/items", async (req, res, next) => {
 
 // Add to cart
 router.post("/items", async (req, res, next) => {
-    let product = req.body;
-    console.log(product);
-    // let cartId = cacheModule.get("cartId");
-
+    let product = req.body.item;
+    let cartId = req.body.id;
+    console.log(product, cartId);
     try {
-        // let newCartItem = await cartsLogic.addToCart(product, cartId);
-        // res.json(newCartItem);
+        let newCartItem = await cartsLogic.addToCart(product, cartId);
+        res.json(newCartItem);
     }
     catch (err) {
         return next(err);
@@ -57,9 +56,8 @@ router.post("/items", async (req, res, next) => {
 
 // Update on cart
 router.put("/items", async (req, res, next) => {
-    let product = req.body;
-    let cartId = cacheModule.get("cartId");
-
+    let product = req.body.item;
+    let cartId = req.body.cartId;
     try {
         let updatedCartItem = await cartsLogic.updateCart(product, cartId);
         res.json(updatedCartItem);
@@ -70,9 +68,9 @@ router.put("/items", async (req, res, next) => {
 });
 
 // Remove form cart
-router.delete("/items/:id", async (req, res, next) => {
-    let productId = req.params.id;
-    let cartId = cacheModule.get("cartId");
+router.delete("/items/:prodcutId/:cartId", async (req, res, next) => {
+    let productId = req.params.prodcutId
+    let cartId = req.params.cartId
 
     try {
         await cartsLogic.deleteFromCart(productId, cartId);
@@ -84,8 +82,8 @@ router.delete("/items/:id", async (req, res, next) => {
 });
 
 // Empty cart
-router.delete("/items", async (req, res, next) => {
-    let cartId = cacheModule.get("cartId");
+router.delete("/items/:cartId", async (req, res, next) => {
+    let cartId = req.params.cartId
 
     try {
         await cartsLogic.emptyCart(cartId);

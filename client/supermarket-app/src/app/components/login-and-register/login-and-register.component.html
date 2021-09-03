@@ -1,9 +1,13 @@
-<button mat-raised-button color="primary" *ngIf="isHandleSignUp" (click)='handleSignUp()'>Click here to create your own account</button>
-<button mat-raised-button color="primary" *ngIf="isHandleSignIn" (click)='handleSignIn()'>Click here if you are already have an account</button>
-<!-- <span *ngIf="isHandleSignUp" (click)='handleSignUp()'> Click here to create your own account</span>
-<span *ngIf="isHandleSignIn" (click)='handleSignIn()' >Click here if you are already have an account </span>  -->
-<hr>
 
+<div class="pic-container">
+    <img src="../../../assets//entrace pic.jpg" alt="entracePic" class="entrace-pic">
+    <h2>Updated number of products in our store:{{this.productsCount}}</h2>
+    <h2>Number of orders made in our store: NULL</h2>
+</div>
+
+<div class="form-container">
+<button mat-raised-button color="primary" *ngIf="isHandleSignUp" (click)='handleSignUp()'>Click here to create new account</button>
+<button mat-raised-button color="primary" *ngIf="isHandleSignIn" (click)='handleSignIn()'>Click here if you are already have an account</button>
 <div *ngIf="stepOneLogin">
     <form #loginForm='ngForm'>
         <h1>Login</h1>
@@ -70,3 +74,5 @@
 
     </form>
 </div>
+</div>
+

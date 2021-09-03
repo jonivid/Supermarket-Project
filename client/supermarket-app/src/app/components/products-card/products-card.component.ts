@@ -30,8 +30,8 @@ export class ProductsCardComponent implements OnInit {
     if (data.quantity !== 0) {
       let observableCart = this.cartService.addItemToCart(data);
       observableCart.subscribe(
-        (cartItem) => {},
-        (error) => {
+        (cartItem:CartItem) => {},
+        (error:any) => {
           console.log(error);
         }
       );

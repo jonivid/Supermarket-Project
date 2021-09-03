@@ -1,3 +1,4 @@
+import { StateService } from 'src/app/services/state.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(public stateService: StateService) { }
 
   ngOnInit(): void {
   }

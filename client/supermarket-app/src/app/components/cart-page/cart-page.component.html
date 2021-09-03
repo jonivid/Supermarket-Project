@@ -1,0 +1,28 @@
+<div *ngIf="stateService.isLoggedIn ">
+    <div>
+        <h1>Cart item list</h1><hr>
+    </div>
+    <div class="item-container"  *ngFor="let item of products; let i = index">
+    <div class="cart-item"> 
+        <img src="{{item.imageUrl}}" alt="{{item.name}}" class="item-img">
+        <div class="cart-item-details">
+            <p class="item-name"><b>{{item.name}}</b></p>
+            <p>category: <b>{{item.categoryName}}</b> </p>
+            <p> Quantity: <input type="number" value="{{item.quantity}}" id="cart-item-q" (change)="updateCart($event,item)" min=1></p>
+            <div class=total-price>
+                <p>total price <b>{{item.totalPrice}} $</b></p>
+            </div>
+                <button class="cart-item-remove" (click)="removeItem(item)"><mat-icon aria-hidden="false" aria-label="e872">delete</mat-icon></button>
+        </div>
+    </div>
+    </div>
+    <div class="order-total">
+        total price: {{grandTotal}}
+    </div>
+    <div>
+        <button mat-stroked-button color="warn" (click)="emptyCart()" class="empty-cart-btn">empty cart</button><hr>
+    </div>
+    <div>
+        <button class="order-btn" (click)="completeOrder()">Order</button>
+    </div>
+</div>

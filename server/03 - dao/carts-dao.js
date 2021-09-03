@@ -5,12 +5,12 @@ let ServerError = require("../errors/server-error");
 async function getCustomersCart(customerId) {
     let sql = `SELECT 
                     id, 
-                    create_date AS 'createDate',  
+                    date_created AS 'dateCreated',  
                     status 
                 FROM
                     carts
                 WHERE
-                    customer_id = ?`;
+                user_id = ?`;
 
     try {
         let userCarts = await connection.executeWithParameters(sql, customerId);
@@ -24,7 +24,7 @@ async function getCustomersCart(customerId) {
 
 async function createCart(customerId) {
     let sql = `INSERT INTO carts 
-               (customer_id, create_date) 
+               (user_id, date_created) 
                VALUES(?, ?)`;
 
     let currentDate = new Date().toISOString().split('T')[0];
@@ -41,17 +41,20 @@ async function createCart(customerId) {
 
 async function getCartItems(cartId) {
     let sql = `SELECT 
-                    ci.product_id AS 'id', 
-                    p.name, 
-                    ci.amount, 
-                    p.image AS 'imageUrl', 
-                    ci.price 
-                FROM
-                    cart_items ci
-                JOIN
-                    products p ON p.id = ci.product_id
-                WHERE
-                    cart_id = ?`;
+    ci.product_id AS 'id', 
+    p.name,
+    ci.quantity, p.price AS price,
+    p.image AS 'imageUrl', 
+    c.name AS 'categoryName',
+    ci.total_price AS 'totalPrice' 
+    FROM
+    cart_items ci
+    JOIN
+    products p ON p.id = ci.product_id
+    JOIN
+    categories c on c.id= p.category_id
+    WHERE
+    cart_id = ?`;
 
     try {
         return await connection.executeWithParameters(sql, cartId);
@@ -63,12 +66,11 @@ async function getCartItems(cartId) {
 
 async function addToCart(product, cartId) {
     let sql = `INSERT INTO cart_items 
-               (cart_id, product_id, amount, price) 
+               (cart_id, product_id, quantity, total_price) 
                VALUES(?, ?, ?, ?)`;
 
-    product.price = product.price * product.amount;
-    let parameters = [cartId, product.id, product.amount, product.price];
-
+    let parameters = [cartId, product.id, product.quantity, product.totalPrice];
+    console.log(parameters);
     try {
         await connection.executeWithParameters(sql, parameters);
         return product;
@@ -81,13 +83,12 @@ async function addToCart(product, cartId) {
 async function updateCart(product, cartId) {
     let sql = `UPDATE cart_items 
                     SET 
-                        amount = ?,
-                        price = ?
+                        quantity = ?,
+                        total_price = ?
                     WHERE
                         cart_id = ? AND product_id = ?`;
 
-    product.price = product.price * product.amount;
-    let parameters = [product.amount, product.price, cartId, product.id];
+    let parameters = [product.quantity, product.totalPrice, cartId, product.id];
 
     try {
         await connection.executeWithParameters(sql, parameters);

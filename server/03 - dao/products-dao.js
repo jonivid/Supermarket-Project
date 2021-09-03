@@ -4,7 +4,7 @@ let ServerError = require("../errors/server-error");
 
 
 async function getAllProducts() {
-    let sql = `SELECT p.id, p.name, p.price, p.image, p.category_id AS 'categoryId', c.name AS 'categoryName' 
+    let sql = `SELECT p.id, p.name, p.price, p.image AS imageUrl, p.category_id AS 'categoryId', c.name AS 'categoryName' 
     FROM products p JOIN categories c ON c.id = p.category_id`;
     try {
         let allProducts = await connection.execute(sql);
@@ -12,7 +12,8 @@ async function getAllProducts() {
     }
     catch (err) {
         throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);
-    }}
+    }
+}
 
 async function addProduct(product) {
     let sql = `INSERT INTO products (name, price, image, category_id) values (?, ?, ?, ?)`;
@@ -41,5 +42,5 @@ async function updateProduct(product) {
 }
 
 module.exports = {
-    addProduct, updateProduct,getAllProducts
+    addProduct, updateProduct, getAllProducts
 };

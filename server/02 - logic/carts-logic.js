@@ -17,11 +17,11 @@ async function createCart(customerId, currentDate) {
     return cart;
 }
 
-async function getCartItems() {
-    let cartId = cacheModule.get("cartId");
-    if (cartId) {
-        return await cartsDao.getCartItems(cartId);
-    }
+async function getCartItems(cartId) {
+    // let cartId = cacheModule.get("cartId");
+    // if (cartId) {
+    // }
+    return await cartsDao.getCartItems(cartId);
 }
 
 async function addToCart(product, cartId) {

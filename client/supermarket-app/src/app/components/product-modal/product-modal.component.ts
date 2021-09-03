@@ -32,10 +32,15 @@ export class ProductModalComponent implements OnInit {
   }
   save() {
     this.dialogRef.close({
-      item: this.data,
+      categoryId: this.data.categoryId,
+      id: this.data.id,
+      imageUrl: this.data.imageUrl,
+      name: this.data.name,
+      price: this.data.price,
       totalPrice: this.totalPrice,
       quantity: this.quantity,
     });
+
   }
   close() {
     this.dialogRef.close();

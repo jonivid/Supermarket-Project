@@ -13,12 +13,12 @@ p {
   height: 70px;
   position: relative;
   left: 120px;
-  top: 10px;
+  top: 24px;
 }
 
 .cart-item-details {
   position: relative;
-  bottom: 60px;
+  bottom: 75px;
 }
 
 .cart-item-remove {
@@ -61,3 +61,14 @@ p {
   padding: 20px;
 }
 
+.empty-cart-btn {
+  position: relative;
+  top: 30px;
+  margin: 20px;
+  width: 327px;
+}
+
+#cart-item-q {
+  width: 60px;
+  font-weight: bolder;
+}

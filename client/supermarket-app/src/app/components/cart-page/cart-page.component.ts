@@ -1,18 +1,20 @@
-import { UsersService } from './../../services/users.service';
-import { StateService } from './../../services/state.service';
-import { CartsService } from 'src/app/services/carts.service';
+import { CartsService } from './../../services/carts.service';
 import { Component, OnInit } from '@angular/core';
-import { CartItem } from 'src/app/models/CartItem';
+import { StateService } from 'src/app/services/state.service';
+import { UsersService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
+import { CartItem } from 'src/app/models/CartItem';
 
 @Component({
-  selector: 'app-cart-container',
-  templateUrl: './cart-container.component.html',
-  styleUrls: ['./cart-container.component.css'],
+  selector: 'app-cart-page',
+  templateUrl: './cart-page.component.html',
+  styleUrls: ['./cart-page.component.css'],
 })
-export class CartContainerComponent implements OnInit {
+export class CartPageComponent implements OnInit {
+  public products: any[] = [];
+
+ 
   cartItems: CartItem[] = [];
-  public products: any = [];
   public grandTotal: number = 0;
   public cartId?: any;
   constructor(
