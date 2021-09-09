@@ -38,3 +38,18 @@
   border: none;
   background-color: white;
 }
+
+.add-product {
+  position: relative;
+  top: 60px;
+  margin: 25px;
+  border: none;
+  background: none;
+  color: rgb(124, 218, 218);
+  transform: scale(2);
+}
+.add-product:hover{
+  color: rgb(101, 170, 170);
+  transition: color 0.5s;
+
+}

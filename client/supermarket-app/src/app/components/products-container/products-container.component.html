@@ -6,7 +6,8 @@
         <span><input type="text"  [(ngModel)]="productName" placeholder="Search product by name" 
             class="search-by-name"></span>
     </div>
-    
+    <button matTooltip="Click to add a new product" matTooltipPosition="left" class="add-product" (click)="addNewProduct()"
+    *ngIf="this.usersService.isAdmin==='ADMIN' && this.stateService.isLoggedIn"><mat-icon  aria-hidden="false" aria-label="e8cc">add_circle</mat-icon></button>
     <div class="products-container">
 
         <div *ngFor='let currentProduct of productsService.products | categories :categoryFilter | byProductName :productName' class='products-container '>

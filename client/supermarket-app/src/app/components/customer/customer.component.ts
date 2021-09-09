@@ -32,29 +32,29 @@ export class CustomerComponent implements OnInit {
             });
           } else if (cart.status === 'close') {
             this.cartStatusMessage =`Your last purchase was in: ${cart.dateCreated}`
-            let newCartObservable = this.cartService.createNewCart(
-              localStorage.getItem('userId')
-            );
-            newCartObservable.subscribe(
-              (cart) => {
+            // let newCartObservable = this.cartService.createNewCart(
+            //   localStorage.getItem('userId')
+            // );
+            // newCartObservable.subscribe(
+            //   (cart) => {
                 this.isCartOpen = 3;
-                this.cartService.currentCart = cart;
-              },
-              (error) => {}
-            );
+            //     this.cartService.currentCart = cart;
+            //   },
+            //   (error) => {}
+            // );
           }
         } else if (!cart) {
           this.cartStatusMessage = "Welcome to your first purchase"
-          let newCartObservable = this.cartService.createNewCart(
-            localStorage.getItem('userId')
-          );
-          newCartObservable.subscribe(
-            (cart) => {
+          // let newCartObservable = this.cartService.createNewCart(
+          //   localStorage.getItem('userId')
+          // );
+          // newCartObservable.subscribe(
+          //   (cart) => {
               this.isCartOpen = 3;
-              this.cartService.currentCart = cart;
-            },
-            (error) => {}
-          );
+          //     this.cartService.currentCart = cart;
+          //   },
+          //   (error) => {}
+          // );
         }
       },
       (error) => {}
@@ -64,5 +64,15 @@ export class CustomerComponent implements OnInit {
     this.isCartOpen = 1;
     this.isProductsListOn = true;
     this.stateService.isCartContainer = true;
+    let newCartObservable = this.cartService.createNewCart(
+      localStorage.getItem('userId')
+    );
+    newCartObservable.subscribe(
+      (cart) => {
+        // this.isCartOpen = 3;
+        this.cartService.currentCart = cart;
+      },
+      (error) => {}
+    );
   }
 }

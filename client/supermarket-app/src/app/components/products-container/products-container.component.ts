@@ -2,6 +2,9 @@ import { CategoriesService } from 'src/app/services/categories.service';
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Category } from 'src/app/models/Category';
+import { UsersService } from 'src/app/services/users.service';
+import { StateService } from 'src/app/services/state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products-container',
@@ -13,7 +16,11 @@ export class ProductsContainerComponent implements OnInit {
   public productName: string = '';
   constructor(
     public categoriesService: CategoriesService,
-    public productsService: ProductsService
+    public productsService: ProductsService,
+    public usersService: UsersService,
+    public stateService: StateService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -43,5 +50,8 @@ export class ProductsContainerComponent implements OnInit {
   }
   getAllProducts() {
     this.categoryFilter = 'all';
+  }
+  addNewProduct(){
+    this.router.navigate(['/addnewproduct'])
   }
 }

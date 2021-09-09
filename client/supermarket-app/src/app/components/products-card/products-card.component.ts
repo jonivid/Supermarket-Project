@@ -4,6 +4,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { CartsService } from 'src/app/services/carts.service';
+import { StateService } from 'src/app/services/state.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-products-card',
@@ -14,8 +16,14 @@ export class ProductsCardComponent implements OnInit {
   @Input() data: Product = new Product();
   popup: boolean = false;
   itemToCart: CartItem = {};
+  public isAdmin: boolean = false;
 
-  constructor(private dialog: MatDialog, public cartService: CartsService) {}
+  constructor(
+    private dialog: MatDialog,
+    public cartService: CartsService,
+    public usersService: UsersService,
+    public stateService: StateService
+  ) {}
 
   openDialog(data: Product): void {
     const dialogConfig = new MatDialogConfig();
@@ -25,16 +33,27 @@ export class ProductsCardComponent implements OnInit {
     const dialogRef = this.dialog.open(ProductModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((data) => this.addToCart(data));
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  {    
+
+
+   }
+
+
+
+  }
   addToCart(data: CartItem): void {
     if (data.quantity !== 0) {
       let observableCart = this.cartService.addItemToCart(data);
       observableCart.subscribe(
-        (cartItem:CartItem) => {},
-        (error:any) => {
+        (cartItem: CartItem) => {},
+        (error: any) => {
           console.log(error);
         }
       );
     }
+  }
+  editProduct(data:Product){
+    console.log(data);
   }
 }

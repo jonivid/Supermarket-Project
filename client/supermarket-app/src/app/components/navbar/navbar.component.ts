@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('userId');
     this.stateService.isLoggedIn = false;
     this.stateService.isCartContainer = false;
-    this.userService.isAdmin = false;
+    this.userService.isAdmin = "";
     this.router.navigate(['/home']);
   }
   toggleCartPage() {

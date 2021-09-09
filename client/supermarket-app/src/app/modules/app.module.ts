@@ -36,6 +36,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { AddNewProductComponent } from '../components/add-new-product/add-new-product.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     CartPageComponent,
     AboutUsComponent,
     HighlightSearchPipe,
+    AddNewProductComponent,
     
   ],
   imports: [

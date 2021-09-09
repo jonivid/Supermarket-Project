@@ -1,9 +1,12 @@
 
-<div class='card rounded'>
-    <h4>{{data.name}}</h4>
+<div class='card'>
+    <h4 class="p-name">{{data.name}}</h4>
     <p>{{data.price}}</p>
     <img src={{data.imageUrl}} class='product-img'>
-    <input type="button" value="add to cart" class="add-to-cart" (click)="openDialog(data)">
+    <input  *ngIf="this.usersService.isAdmin==='CUSTOMER' && this.stateService.isLoggedIn" type="button" value="add to cart" class="add-to-cart"
+     (click)="openDialog(data)">
+    <button matTooltip="Click to edit product" matTooltipPosition="left" class="edit-product" (click)='editProduct(data)'
+    *ngIf="this.usersService.isAdmin==='ADMIN' && this.stateService.isLoggedIn"><mat-icon aria-hidden="false" aria-label="e8cc">edit</mat-icon></button>
 </div>
 
 

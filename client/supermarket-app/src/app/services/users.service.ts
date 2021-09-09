@@ -9,7 +9,7 @@ import { UserLoginDetails } from '../models/UserLoginDetails';
   providedIn: 'root',
 })
 export class UsersService {
-  isAdmin: boolean = false;
+  isAdmin: string = "";
   constructor(private http: HttpClient) {}
 
   public auth():Observable<any> {
