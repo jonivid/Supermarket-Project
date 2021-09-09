@@ -20,7 +20,6 @@ export class CartContainerComponent implements OnInit {
     public stateService: StateService,
     public userService: UsersService,
     private router: Router
-
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +37,11 @@ export class CartContainerComponent implements OnInit {
   updateCart(event: any, item: any) {
     item.quantity = event.target.value;
     item.totalPrice = item.quantity * item.price;
-    this.cartService.updateCart(item).subscribe((res:any) => {});
+    this.cartService.updateCart(item).subscribe((res: any) => {});
   }
 
-  completeOrder(){
+  completeOrder() {
+    this.stateService.isCartContainer = false;
     this.router.navigate(['/cartpage']);
   }
 }

@@ -31,6 +31,11 @@ import { CartPageComponent } from '../components/cart-page/cart-page.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTableModule} from '@angular/material/table';
 import { AboutUsComponent } from '../components/about-us/about-us.component';
+import { HighlightSearchPipe } from '../pipes/highlight-search.pipe';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -51,6 +56,8 @@ import { AboutUsComponent } from '../components/about-us/about-us.component';
     NavbarComponent,
     CartPageComponent,
     AboutUsComponent,
+    HighlightSearchPipe,
+    
   ],
   imports: [
     BrowserModule,
@@ -65,7 +72,12 @@ import { AboutUsComponent } from '../components/about-us/about-us.component';
     MatIconModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule 
     
   ],
   providers: [AuthenticationInterceptor],

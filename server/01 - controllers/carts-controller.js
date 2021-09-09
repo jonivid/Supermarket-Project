@@ -2,12 +2,14 @@ const cartsLogic = require('../02 - logic/carts-logic');
 const express = require('express');
 const router = express.Router();
 let cacheModule = require("../02 - logic/cache-module");
+const { log } = require('nodemon/node_modules/debug/src/browser');
 
 // Get customer's cart
 router.get("/:id", async (req, res, next) => {
     try {
         let customerId = req.params.id
         let customerCart = await cartsLogic.getCustomersCart(customerId);
+        console.log(customerCart);
         res.json(customerCart);
     }
     catch (err) {

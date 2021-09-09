@@ -14,15 +14,24 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+router.get("/orderscount", async (req, res, next) => {
+    try {
+        let ordersCount = await ordersLogic.ordersCount();
+        res.json(ordersCount);
+    }
+    catch (err) {
+        return next(err);
+    }
+});
+
 
 // Make an order
-router.post("/", async (req, res, next) => {    
+router.post("/", async (req, res, next) => {
     let orderDetails = req.body;
-    let cartId = cacheModule.get("cartId");
-    let customerId = cacheModule.extractUserDataFromCache(req).id;
+    console.log(orderDetails);
 
     try {
-        await ordersLogic.order(orderDetails, cartId, customerId);
+        await ordersLogic.order(orderDetails);
         res.json();
 
     } catch (err) {

@@ -1,28 +1,56 @@
+
 <div *ngIf="stateService.isLoggedIn ">
     <div>
         <h1>Cart item list</h1><hr>
     </div>
-    <div class="item-container"  *ngFor="let item of products; let i = index">
-    <div class="cart-item"> 
-        <img src="{{item.imageUrl}}" alt="{{item.name}}" class="item-img">
-        <div class="cart-item-details">
-            <p class="item-name"><b>{{item.name}}</b></p>
-            <p>category: <b>{{item.categoryName}}</b> </p>
-            <p> Quantity: <input type="number" value="{{item.quantity}}" id="cart-item-q" (change)="updateCart($event,item)" min=1></p>
-            <div class=total-price>
-                <p>total price <b>{{item.totalPrice}} $</b></p>
-            </div>
-                <button class="cart-item-remove" (click)="removeItem(item)"><mat-icon aria-hidden="false" aria-label="e872">delete</mat-icon></button>
-        </div>
-    </div>
-    </div>
+    <span><input type="text"  [(ngModel)]="textToHighlight" placeholder="Search product by name" 
+        class="search-by-name"></span>
+        <p [innerHTML]="products | highlightSearch :textToHighlight"></p>
     <div class="order-total">
         total price: {{grandTotal}}
     </div>
-    <div>
-        <button mat-stroked-button color="warn" (click)="emptyCart()" class="empty-cart-btn">empty cart</button><hr>
-    </div>
-    <div>
-        <button class="order-btn" (click)="completeOrder()">Order</button>
-    </div>
+<div>
+    <form #orderForm='ngForm' autocomplete="off">
+        <h1>Shipment Details</h1>
+       
+        <input type="text" placeholder="city" name="city" autocomplete="off"
+        #cityInput='ngModel' [(ngModel)]="userOrderDetails.city" required><br>
+        <span *ngIf="cityInput.touched && cityInput.errors?.required">"city field is empty"</span><br>
+
+        <input type="text" placeholder="street" name="street"   autocomplete="off"
+        #streetInput='ngModel' [(ngModel)]="userOrderDetails.street" required><br>
+        <span *ngIf="streetInput.touched && streetInput.errors?.required">"street field is empty"</span><br>
+
+        <input type="number" name="creditCard" placeholder="fill 4 last number of your credit card"
+        #creditCardInput='ngModel' [(ngModel)]="userOrderDetails.creditCard" pattern="[0-9]{4}" required ><br>
+        <span *ngIf="creditCardInput.touched && creditCardInput.errors?.required">"fill 4 last number of your credit card"</span><br>
+        <span *ngIf="creditCardInput.touched && creditCardInput.errors?.pattern">"fill 4 last number of your credit card"</span><br>
+        
+        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="shippingDate" #dateInput='ngModel' [(ngModel)]="userOrderDetails.shippingDate" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker><br>
+
+
+        <!-- <input type="date" name="shippingDate"  #dateInput='ngModel' [(ngModel)]="userOrderDetails.shippingDate" required ><br> -->
+        <button mat-raised-button color="accent" 
+        (click)="completeOrder()" [disabled]='orderForm.form.invalid' data-bs-toggle="modal" data-bs-target="#exampleModal">Complete Order</button>
+    </form>
 </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel">You Completed your order</h1>
+        </div>
+        <div class="modal-body">
+          you can download your invoice here
+          <a [href]="fileUrl" download="file.txt">DownloadFile</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="acceptOrder()">Accept</button>
+        </div>
+      </div>
+    </div>
+  </div>

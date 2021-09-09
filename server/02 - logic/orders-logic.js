@@ -1,14 +1,19 @@
 const ordersDao = require("../03 - dao/orders-dao");
+const cartDao = require("../03 - dao/carts-dao");
 const ServerError = require("../errors/server-error");
 const ErrorType = require("../errors/error-type");
 
 async function getOrdersShipDates() {
     return await ordersDao.getOrdersShipDates();
 }
+async function ordersCount() {
+    return await ordersDao.ordersCount();
+}
 
-async function order(orderDetails, cartId, customerId) {
+async function order(orderDetails) {
     validations(orderDetails);
-    await ordersDao.order(orderDetails, cartId, customerId);
+    await ordersDao.order(orderDetails);
+    await cartDao.emptyCart(orderDetails.currentCart.id)
 }
 
 function validations(order) {
@@ -24,5 +29,5 @@ function validations(order) {
 
 module.exports = {
     getOrdersShipDates,
-    order
+    order,ordersCount
 };

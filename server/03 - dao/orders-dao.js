@@ -5,10 +5,10 @@ let ServerError = require("../errors/server-error");
 
 async function getOrdersShipDates() {
     let sql = `SELECT 
-                    ship_date AS 'shipDate' 
+                    shipping_date AS 'shipDate' 
                 FROM
                     orders
-                GROUP BY ship_date
+                GROUP BY shipping_date
                 HAVING COUNT(*) >= 3`;
 
     try {
@@ -20,25 +20,37 @@ async function getOrdersShipDates() {
     }
 }
 
-async function order(order, cartId, customerId) {
-    let orderSql = `INSERT INTO orders 
-               (cart_id, customer_id, final_price, ship_city, ship_address, ship_date, order_date, credit_card) 
+async function ordersCount() {
+    let sql = `SELECT COUNT(id) AS ordersNumber FROM orders`
+    try {
+        let numOforders = await connection.execute(sql);
+        return numOforders;
+    }
+    catch (err) {
+        throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);
+    }
+}
+
+
+
+async function order(orderDetails) {
+    let sql = `INSERT INTO orders 
+               (cart_id, user_id, final_price, shipping_city, shipping_street, shipping_date, date_created, credit_card) 
                VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    let formattedOrderDate = order.orderDate.split("T")[0];
-    let formattedshippingDate = order.shippingDate.split("T")[0];
-    
-    let orderParameters = [
-        cartId, customerId, order.finalPrice, order.city, order.street,
-        formattedshippingDate, formattedOrderDate, order.creditCard
-    ];
+    let OrderDate = orderDetails.orderDate.split("T")[0];
+    let shippingDate = orderDetails.shippingDate.split("T")[0];
 
+    let parameters = [
+        orderDetails.currentCart.id, orderDetails.userId, orderDetails.grandTotal, orderDetails.city, orderDetails.street,
+        shippingDate, OrderDate, orderDetails.creditCard
+    ];
     try {
-        await connection.executeWithParameters(orderSql, orderParameters);
-        await closeCart(cartId);
+        await connection.executeWithParameters(sql, parameters);
+        await closeCart(orderDetails.currentCart.id);
 
     } catch (err) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, orderSql, err);
+        throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);
     }
 
 }
@@ -56,5 +68,5 @@ async function closeCart(cartId) {
 
 module.exports = {
     getOrdersShipDates,
-    order,
+    order, ordersCount
 };

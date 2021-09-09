@@ -1,3 +1,4 @@
+import { OrdersService } from './../../services/orders.service';
 import { ProductsService } from './../../services/products.service';
 import { UserDetails } from '../../models/UserDetails';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,8 @@ import { CartsService } from 'src/app/services/carts.service';
 export class LoginAndRegisterComponent implements OnInit {
   userLoginDetails: UserLoginDetails = new UserLoginDetails('', '');
   userRegisterDetails: UserDetails = new UserDetails();
-  productsCount: number = 0;
+  public productsCount: number = 0;
+  public ordersCount: number = 0;
 
   public cities: string[] = [
     'Ashdod',
@@ -41,10 +43,18 @@ export class LoginAndRegisterComponent implements OnInit {
     private router: Router,
     private stateService: StateService,
     public cartService: CartsService,
-    public productsService: ProductsService
+    public productsService: ProductsService,
+    public orderService: OrdersService
   ) {}
 
   ngOnInit(): void {
+    let observableOrderCount = this.orderService.getOrdersCount();
+    observableOrderCount.subscribe(
+      (countResult) => {
+      console.log(countResult[0].ordersNumber);
+      this.ordersCount = countResult[0].ordersNumber;
+    });
+
     let observableProducts = this.productsService.getAllProducts();
     observableProducts.subscribe(
       (productsList) => {
@@ -53,8 +63,9 @@ export class LoginAndRegisterComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      })
       }
+    );
+  }
 
   onChange(newValue: string) {
     this.userRegisterDetails.city = newValue;
@@ -115,9 +126,11 @@ export class LoginAndRegisterComponent implements OnInit {
         if (successfulServerRequestData.isAdmin == 'ADMIN') {
           localStorage.setItem('userFirstName', 'admin');
           this.router.navigate(['/admin']);
-        } 
-        else if (successfulServerRequestData.isAdmin == 'CUSTOMER') {
-          this.stateService.toggleIsCartContainer();
+        } else if (successfulServerRequestData.isAdmin == 'CUSTOMER') {
+          this.orderService.userCity =
+            successfulServerRequestData.userDetails.city;
+          this.orderService.userStreet =
+            successfulServerRequestData.userDetails.street;
           localStorage.setItem(
             'userFirstName',
             successfulServerRequestData.userDetails.firstName
@@ -125,38 +138,6 @@ export class LoginAndRegisterComponent implements OnInit {
           localStorage.setItem(
             'userId',
             JSON.stringify(successfulServerRequestData.userDetails.id)
-          );
-
-          let cartObservable = this.cartService.getCart(
-            localStorage.getItem('userId')
-          );
-          cartObservable.subscribe(
-            (cart) => {
-              if (cart) {
-                if (cart.status === 'open') {
-                  this.cartService.currentCart = cart;
-                  this.cartService.getProductsList().subscribe((res) => {
-                    this.cartService.cartItemList = res;
-                    this.cartService.productList.next(res);
-                  });
-                }
-              } else {
-                let newCartObservable = this.cartService.createNewCart(
-                  localStorage.getItem('userId')
-                );
-                newCartObservable.subscribe(
-                  (cart) => {
-                    this.cartService.currentCart = cart;
-                    console.log(
-                      'we created a new cart cart',
-                      this.cartService.currentCart
-                    );
-                  },
-                  (error) => {}
-                );
-              }
-            },
-            (error) => {}
           );
           this.router.navigate(['/customer']);
         }
