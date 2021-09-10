@@ -1,3 +1,4 @@
+import { NewProduct } from 'src/app/models/NewProduct';
 import { Observable } from 'rxjs';
 import { Product } from './../models/Product';
 import { Injectable } from '@angular/core';
@@ -14,4 +15,11 @@ export class ProductsService {
   public getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>('http://localhost:3001/products');
   }
+  public createNewProduct(
+    newProductDetails: NewProduct
+  ): Observable<any> {
+    return this.http.post<NewProduct>(
+      'http://localhost:3001/products/',
+      newProductDetails
+    )}
 }

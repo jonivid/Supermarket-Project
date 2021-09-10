@@ -25,17 +25,17 @@ import { CartContainerComponent } from '../components/cart-container/cart-contai
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartPageComponent } from '../components/cart-page/cart-page.component';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatTableModule} from '@angular/material/table';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTableModule } from '@angular/material/table';
 import { AboutUsComponent } from '../components/about-us/about-us.component';
 import { HighlightSearchPipe } from '../pipes/highlight-search.pipe';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddNewProductComponent } from '../components/add-new-product/add-new-product.component';
 
 @NgModule({
@@ -59,7 +59,6 @@ import { AddNewProductComponent } from '../components/add-new-product/add-new-pr
     AboutUsComponent,
     HighlightSearchPipe,
     AddNewProductComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -79,8 +78,7 @@ import { AddNewProductComponent } from '../components/add-new-product/add-new-pr
     MatFormFieldModule,
     MatNativeDateModule,
     MatAutocompleteModule,
-    ReactiveFormsModule 
-    
+    ReactiveFormsModule,
   ],
   providers: [AuthenticationInterceptor],
   bootstrap: [LayoutComponent],

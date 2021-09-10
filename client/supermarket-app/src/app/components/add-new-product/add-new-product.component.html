@@ -10,9 +10,14 @@
     <span *ngIf="productPriceInput.errors?.required && productPriceInput.touched">"You must enter product price"<br></span>
     <span *ngIf="productPriceInput.errors?.min ">"Minimum product value is 1$"<br></span>
     <span *ngIf="productPriceInput.errors?.pattern ">"Max decimal for product is only 2 digits"<br></span>
-    <input type="file" placeholder="Upload image file" name="image"  autocomplete="on" accept=".png,.jpg"
-    (change)="uploadImg($event)"         #productImageInput='ngModel' [(ngModel)]="newProduct.image" required ><br>
-    <!-- <input type="text" placeholder="product name" name="name"  autocomplete="on" 
+    <input type="text" placeholder="Upload image file" name="image"  autocomplete="on" 
+     #productImageInput='ngModel' [(ngModel)]="newProduct.imageUrl" required ><br>
+     <span *ngIf="productImageInput.errors?.required && productImageInput.touched">"You must enter product image"<br></span>
+     <select [ngModel]="newProduct.categoryId" (ngModelChange)="onChange($event)" name="category" required
+     #categoryInput='ngModel' >
+         <option *ngFor="let category of categoriesService.categories " value="{{category.id}}" >{{category.name}} </option>
+     </select><br>
+     <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a city"<br></span>    <!-- <input type="text" placeholder="product name" name="name"  autocomplete="on" 
     #productNameInput='ngModel' [(ngModel)]="newProduct.name" required ><br>
     <span *ngIf="IdNumberInput.errors?.minlength">"Id number minlength 8 characthers"<br></span>
     <span *ngIf="IdNumberInput.errors?.maxlength">"Id number maxlength 9 characthers"<br></span>

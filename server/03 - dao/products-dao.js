@@ -18,7 +18,7 @@ async function getAllProducts() {
 async function addProduct(product) {
     let sql = `INSERT INTO products (name, price, image, category_id) values (?, ?, ?, ?)`;
     product.name = product.name.toLowerCase();
-    let parameters = [product.name, product.price, product.image, product.categoryId];
+    let parameters = [product.name, product.price, product.imageUrl, product.categoryId];
     try {
         let response = await connection.executeWithParameters(sql, parameters);
         let newProductId = response.insertId;
