@@ -37,6 +37,7 @@ export class ProductsContainerComponent implements OnInit {
     observableProducts.subscribe(
       (productsList) => {
         // console.log(productsList);
+        this.productsService.products = [...this.productsService.products]
         this.productsService.products = productsList;
       },
       (error) => {

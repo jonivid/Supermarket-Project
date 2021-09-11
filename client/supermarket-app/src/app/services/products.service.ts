@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductsService {
   public products: Product[] = [];
+  public productToEdit?:Product
 
   constructor(private http: HttpClient) {}
 
@@ -22,4 +23,11 @@ export class ProductsService {
       'http://localhost:3001/products/',
       newProductDetails
     )}
+
+    updateProduct(product: any): any 
+    {
+      return this.http.put(
+        `http://localhost:3001/products`,product
+      );
+    }  
 }

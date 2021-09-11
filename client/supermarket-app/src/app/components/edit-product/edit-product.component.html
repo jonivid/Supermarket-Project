@@ -1,0 +1,33 @@
+<p>edit-product works!</p>
+
+<form #editProductForm='ngForm' >
+    
+        <mat-label>Product name</mat-label><br>
+        <input type="text"  [(ngModel)]="this.prodcutToEdit!.name" name="name" id="" required
+        #productNameInput='ngModel'><br>
+        <span *ngIf="productNameInput.errors?.required && productNameInput.touched">"You must enter product name"<br></span>
+
+        <mat-label>Product price</mat-label><br>
+        <input type="text"  [(ngModel)]="this.prodcutToEdit!.price" name="price" required min="1" pattern="^\d*(\.\d{0,2})?$" 
+        #productPriceInput='ngModel' id=""><br>
+        <span *ngIf="productPriceInput.errors?.required && productPriceInput.touched">"You must enter product price"<br></span>
+        <span *ngIf="productPriceInput.errors?.min ">"Minimum product value is 1$"<br></span>
+        <span *ngIf="productPriceInput.errors?.pattern ">"Max decimal for product is only 2 digits"<br></span>
+        
+        <mat-label>Product categoryName</mat-label><br>
+        <select [(ngModel)]="this.prodcutToEdit!.categoryName" (ngModelChange)="onChange($event)" name="category" required
+        #categoryInput='ngModel' >
+        <option value="" disabled>current: {{this.prodcutToEdit!.categoryName}}</option>
+            <option *ngFor="let category of categoriesService.categories " value="{{category.id}}" >{{category.name}} </option>
+        </select><br>
+        <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>
+        
+        <mat-label>Product imageUrl</mat-label><br>
+        <input type="text"  [(ngModel)]="this.prodcutToEdit!.imageUrl" name="imageUrl" required
+        #productImageInput='ngModel' id=""><br>
+        <span *ngIf="productImageInput.errors?.required && productImageInput.touched">"You must enter product image"<br></span>
+
+        <button mat-raised-button color="accent" (click)="updateProduct()" [disabled]='editProductForm.form.invalid'>update product</button>
+
+</form>
+

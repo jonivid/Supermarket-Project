@@ -28,7 +28,7 @@ router.post("/", async (req, res, next) => {
 // Edit product
 router.put("/", async (req, res, next) => {
     const productDetails = req.body;
-
+    console.log(productDetails);
     try {
         const updatedProduct = await productsLogic.updateProduct(productDetails);
         res.json(updatedProduct.info);

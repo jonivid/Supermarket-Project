@@ -1,22 +1,16 @@
 
   <mat-toolbar>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
+     <span>Vidal Market</span>
+  
+    <button mat-icon-button *ngIf="this.usersService.isAdmin==='ADMIN'"><mat-icon aria-hidden="false" aria-label="e8cc" matTooltip="Back to products page" 
+      matTooltipPosition="left" (click)="backToProductsPage()">arrow_back</mat-icon></button>
 
-    <button (click)="toggleCartPage()" mat-icon-button class="cart-btn"  matTooltip="go to cart" matTooltipPosition="left" 
-    *ngIf="this.stateService.isCartContainer && this.stateService.isLoggedIn" aria-label="Example icon-button with share icon">
-     <mat-icon aria-hidden="false" aria-label="e8cc" [matBadge]="this.products.length" matBadgeColor="warn">shopping_cart</mat-icon> <br>
-       </button>
-       <button *ngIf="!this.stateService.isCartContainer && this.stateService.isLoggedIn"  (click)="toggleCartPage()" mat-icon-button matTooltip="back to shopping page" matTooltipPosition="left"><mat-icon aria-hidden="false" 
+      <button  (click)="toggleCartPage()" mat-icon-button class="cart-btn"  matTooltip="go to cart" matTooltipPosition="left" 
+      *ngIf="this.stateService.isCartContainer && this.stateService.isLoggedIn " aria-label="Example icon-button with share icon">
+      <mat-icon aria-hidden="false" aria-label="e8cc" [matBadge]="this.products.length" matBadgeColor="warn">shopping_cart</mat-icon> <br>
+    </button>
+  
+       <button *ngIf="!this.stateService.isCartContainer && this.stateService.isLoggedIn && this.usersService.isAdmin==='CUSTOMER'"  (click)="toggleCartPage()" mat-icon-button matTooltip="back to shopping page" matTooltipPosition="left"><mat-icon aria-hidden="false" 
      aria-label="e88a">home</mat-icon></button>
     <button   (click)="logout()" mat-icon-button class="log-out-btn"  matTooltip="Click to logout" matTooltipPosition="left" aria-label="Example icon-button with share icon">
      <mat-icon aria-hidden="false" aria-label="e9ba">logout</mat-icon> <br>

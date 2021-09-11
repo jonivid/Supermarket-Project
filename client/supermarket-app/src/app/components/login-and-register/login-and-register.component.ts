@@ -51,7 +51,6 @@ export class LoginAndRegisterComponent implements OnInit {
     let observableOrderCount = this.orderService.getOrdersCount();
     observableOrderCount.subscribe(
       (countResult) => {
-      console.log(countResult[0].ordersNumber);
       this.ordersCount = countResult[0].ordersNumber;
     });
 

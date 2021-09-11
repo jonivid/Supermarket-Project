@@ -17,7 +17,7 @@
      #categoryInput='ngModel' >
          <option *ngFor="let category of categoriesService.categories " value="{{category.id}}" >{{category.name}} </option>
      </select><br>
-     <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a city"<br></span>    <!-- <input type="text" placeholder="product name" name="name"  autocomplete="on" 
+     <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>    <!-- <input type="text" placeholder="product name" name="name"  autocomplete="on" 
     #productNameInput='ngModel' [(ngModel)]="newProduct.name" required ><br>
     <span *ngIf="IdNumberInput.errors?.minlength">"Id number minlength 8 characthers"<br></span>
     <span *ngIf="IdNumberInput.errors?.maxlength">"Id number maxlength 9 characthers"<br></span>

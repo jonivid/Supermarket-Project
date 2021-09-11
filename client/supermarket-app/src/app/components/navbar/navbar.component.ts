@@ -15,10 +15,12 @@ export class NavbarComponent implements OnInit {
     public stateService: StateService,
     private userService: UsersService,
     public cartService: CartsService,
+    public usersService: UsersService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    
     this.cartService.productsList().subscribe((res) => {
       this.products = res;
     });
@@ -37,5 +39,8 @@ export class NavbarComponent implements OnInit {
     this.stateService.isCartContainer
       ? this.router.navigate(['/customer'])
       : this.router.navigate(['/cartpage']);
+  }
+  backToProductsPage(){
+    this.router.navigate(['/admin'])
   }
 }

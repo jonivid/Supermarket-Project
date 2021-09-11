@@ -1,3 +1,4 @@
+import { ProductsService } from 'src/app/services/products.service';
 import { CartItem } from './../../models/CartItem';
 import { Product } from './../../models/Product';
 import { Component, Input, OnInit } from '@angular/core';
@@ -6,6 +7,7 @@ import { ProductModalComponent } from '../product-modal/product-modal.component'
 import { CartsService } from 'src/app/services/carts.service';
 import { StateService } from 'src/app/services/state.service';
 import { UsersService } from 'src/app/services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products-card',
@@ -22,7 +24,9 @@ export class ProductsCardComponent implements OnInit {
     private dialog: MatDialog,
     public cartService: CartsService,
     public usersService: UsersService,
-    public stateService: StateService
+    public stateService: StateService,
+    public productService:ProductsService,
+    private router: Router,
   ) {}
 
   openDialog(data: Product): void {
@@ -55,5 +59,8 @@ export class ProductsCardComponent implements OnInit {
   }
   editProduct(data:Product){
     console.log(data);
+    this.productService.productToEdit= data
+    this.router.navigate(['/editproduct']);
+
   }
 }

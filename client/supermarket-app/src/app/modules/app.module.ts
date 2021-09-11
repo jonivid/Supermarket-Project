@@ -10,7 +10,6 @@ import { HomeComponent } from '../components/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterceptor';
 import { AdminComponent } from '../components/admin/admin.component';
 import { CustomerComponent } from '../components/customer/customer.component';
 import { ProductsContainerComponent } from '../components/products-container/products-container.component';
@@ -37,6 +36,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddNewProductComponent } from '../components/add-new-product/add-new-product.component';
+import { EditProductComponent } from '../components/edit-product/edit-product.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { AddNewProductComponent } from '../components/add-new-product/add-new-pr
     AboutUsComponent,
     HighlightSearchPipe,
     AddNewProductComponent,
+    EditProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,8 +81,9 @@ import { AddNewProductComponent } from '../components/add-new-product/add-new-pr
     MatNativeDateModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatInputModule
   ],
-  providers: [AuthenticationInterceptor],
+  providers: [],
   bootstrap: [LayoutComponent],
 })
 export class AppModule {}

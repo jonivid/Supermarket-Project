@@ -7,3 +7,7 @@
   position: absolute;
   right: 65px
 }
+
+button,span{
+  margin-right: 20px;
+}

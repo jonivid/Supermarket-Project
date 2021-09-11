@@ -32,7 +32,7 @@ async function addProduct(product) {
 async function updateProduct(product) {
     let sql = `UPDATE products SET name = ?, price = ?, image = ?, category_id = ? WHERE (id = ?)`;
     product.name = product.name.toLowerCase();
-    let parameters = [product.name, product.price, product.image, product.categoryId, product.id];
+    let parameters = [product.name, product.price, product.imageUrl, product.categoryId, product.id];
 
     try {
         return await connection.executeWithParameters(sql, parameters);
