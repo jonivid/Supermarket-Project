@@ -13,9 +13,10 @@ function remove(key) {
 }
 
 function extractUserDataFromCache(request) {
-    // let authorizationString = request.headers["authorization"];
-    let token = request.substring("Bearer ".length);
+    let authorizationString = request.headers["authorization"];
+    let token = authorizationString.substring("Bearer ".length);
     let userData = dataMap.get(token);
+    console.log(userData);
     return userData;
 }
 module.exports = {

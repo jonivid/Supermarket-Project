@@ -2,25 +2,24 @@ const cartsDao = require("../03 - dao/carts-dao");
 const cacheModule = require("./cache-module");
 
 
-async function getCustomersCart(customerId) {
-    let cart = await cartsDao.getCustomersCart(customerId);
+async function getCustomersCart(userId) {
+    let cart = await cartsDao.getCustomersCart(userId);
     if (cart) {
         cacheModule.set("cartId", cart.id);
     }
     return cart;
 }
 
-async function createCart(customerId, currentDate) {
-    await cartsDao.createCart(customerId, currentDate);
-    let cart = await cartsDao.getCustomersCart(customerId);
+async function createCart(userId, currentDate) {
+    console.log(userId, currentDate);
+    await cartsDao.createCart(userId, currentDate);
+    let cart = await cartsDao.getCustomersCart(userId);
     cacheModule.set("cartId", cart.id);
     return cart;
 }
 
-async function getCartItems(cartId) {
-    // let cartId = cacheModule.get("cartId");
-    // if (cartId) {
-    // }
+async function getCartItems() {
+    let cartId = cacheModule.get("cartId");
     return await cartsDao.getCartItems(cartId);
 }
 

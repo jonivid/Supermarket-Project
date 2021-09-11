@@ -14,15 +14,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     // next : Maybe we have multiple interceptors... so calling next sends the request
     // to the next interceptor (if exists)
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // add authorization header with our token if available
-        let token: string | null;
-        token = sessionStorage.getItem("token");
-        
-        // Logically - token = null ---> false
-        // token != null --> true
-        // A situation for example : login (no token yet)
-        if (token) {            
-            
+        let token: string | null 
+        token = localStorage.getItem("token");
+
+        if (token) {
             request = request.clone({
                 setHeaders: {
                     Authorization: token

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const productsLogic = require('../02 - logic/products-logic')
+const cache = require("../02 - logic/cache-module");
+
 
 // Get all products
 router.get("/", async (req, res, next) => {
@@ -27,9 +29,11 @@ router.post("/", async (req, res, next) => {
 
 // Edit product
 router.put("/", async (req, res, next) => {
+   
     const productDetails = req.body;
     console.log(productDetails);
     try {
+        let user = cache.extractUserDataFromCache(req)
         const updatedProduct = await productsLogic.updateProduct(productDetails);
         res.json(updatedProduct.info);
     }

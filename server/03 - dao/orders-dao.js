@@ -33,21 +33,22 @@ async function ordersCount() {
 
 
 
-async function order(orderDetails) {
+async function order(orderDetails, cartId, userId) {
     let sql = `INSERT INTO orders 
                (cart_id, user_id, final_price, shipping_city, shipping_street, shipping_date, date_created, credit_card) 
                VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    let OrderDate = orderDetails.orderDate.split("T")[0];
+    let orderDate = orderDetails.orderDate.split("T")[0];
     let shippingDate = orderDetails.shippingDate.split("T")[0];
 
     let parameters = [
-        orderDetails.currentCart.id, orderDetails.userId, orderDetails.grandTotal, orderDetails.city, orderDetails.street,
-        shippingDate, OrderDate, orderDetails.creditCard
+        cartId, userId, orderDetails.grandTotal, orderDetails.city, orderDetails.street,
+        shippingDate, orderDate, orderDetails.creditCard
     ];
     try {
+        console.log(parameters);
         await connection.executeWithParameters(sql, parameters);
-        await closeCart(orderDetails.currentCart.id);
+        await closeCart(cartId);
 
     } catch (err) {
         throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);

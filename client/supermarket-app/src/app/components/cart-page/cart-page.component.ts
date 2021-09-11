@@ -59,8 +59,6 @@ export class CartPageComponent implements OnInit {
   // }
 
   completeOrder() {
-    this.userOrderDetails.currentCart = this.cartService.currentCart;
-    this.userOrderDetails.userId = localStorage.getItem('userId');
     this.userOrderDetails.orderDate = new Date();
     this.userOrderDetails.grandTotal = this.grandTotal;
     let observable = this.ordersService.completeOrder(this.userOrderDetails);

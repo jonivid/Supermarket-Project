@@ -18,7 +18,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     let cartObservable = this.cartService.getCart(
-      localStorage.getItem('userId')
+      // localStorage.getItem('userId')
     );
     cartObservable.subscribe(
       (cart) => {
@@ -64,9 +64,7 @@ export class CustomerComponent implements OnInit {
     this.isCartOpen = 1;
     this.isProductsListOn = true;
     this.stateService.isCartContainer = true;
-    let newCartObservable = this.cartService.createNewCart(
-      localStorage.getItem('userId')
-    );
+    let newCartObservable = this.cartService.createNewCart();
     newCartObservable.subscribe(
       (cart) => {
         // this.isCartOpen = 3;
@@ -74,5 +72,11 @@ export class CustomerComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+  toggleCartContainer2() {
+    this.isCartOpen = 1;
+    this.isProductsListOn = true;
+    this.stateService.isCartContainer = true;
+   
   }
 }

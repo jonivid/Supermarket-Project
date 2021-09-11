@@ -16,16 +16,16 @@ export class CartsService {
 
   constructor(private http: HttpClient) {}
 
-  public getCart(id: any): Observable<Cart> {
-    const result = this.http.get<Cart>(`http://localhost:3001/carts/${id}`);
+  public getCart(): Observable<Cart> {
+    const result = this.http.get<Cart>(`http://localhost:3001/carts/`);
     return result;
   }
 
-  public createNewCart(id: any): Observable<Cart> {
+  public createNewCart(): Observable<Cart> {
     const cartDetails = {
-      id,
-      date: new Date(),
+      date: new Date().toLocaleString()
     };
+    
     return this.http.post('http://localhost:3001/carts', cartDetails);
   }
 
@@ -38,7 +38,6 @@ export class CartsService {
       this.cartItemList[index].totalPrice = item.totalPrice;
       this.productList.next(this.cartItemList);
       let details ={
-        cartId: this.currentCart.id,
         item
       }
       return this.http.put(
@@ -63,7 +62,7 @@ export class CartsService {
 
   public getProductsList(): Observable<CartItem[]> {
     return this.http.get<CartItem[]>(
-      `http://localhost:3001/carts/items/${this.currentCart.id}`
+      `http://localhost:3001/carts/items/`
     );
   }
 
@@ -75,7 +74,7 @@ export class CartsService {
     });
     this.productList.next(this.cartItemList);
     return this.http.delete(
-      `http://localhost:3001/carts/items/${product.id}/${this.currentCart.id}`
+      `http://localhost:3001/carts/items/${product.id}`
     );
   }
 
@@ -83,7 +82,7 @@ export class CartsService {
     this.cartItemList = [];
     this.productList.next(this.cartItemList);
     return this.http.delete(
-      `http://localhost:3001/carts/items/${this.currentCart.id}`
+      `http://localhost:3001/carts/items/`
     );
   }
 
@@ -94,8 +93,7 @@ export class CartsService {
     );
     this.productList.next(this.cartItemList);
     let details ={
-      cartId: this.currentCart.id,
-      item
+     item
     }
     return this.http.put(
       `http://localhost:3001/carts/items/`,details

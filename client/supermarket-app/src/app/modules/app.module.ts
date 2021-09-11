@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddNewProductComponent } from '../components/add-new-product/add-new-product.component';
 import { EditProductComponent } from '../components/edit-product/edit-product.component';
 import {MatInputModule} from '@angular/material/input';
+import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterceptor';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import {MatInputModule} from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],
   bootstrap: [LayoutComponent],
 })
 export class AppModule {}

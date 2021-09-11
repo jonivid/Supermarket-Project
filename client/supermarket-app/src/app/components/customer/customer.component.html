@@ -36,7 +36,7 @@
   <div>
     <h1>{{this.cartStatusMessage}}</h1>
   </div>
-<button *ngIf="this.isCartOpen ===2" mat-raised-button color="primary" (click)="toggleCartContainer()">Continue shopping ...</button>
+<button *ngIf="this.isCartOpen ===2" mat-raised-button color="primary" (click)="toggleCartContainer2()" >Continue shopping ...</button>
 <button *ngIf="this.isCartOpen ===3" mat-raised-button color="accent" (click)="toggleCartContainer()">Click to start shopping</button>
 <app-products-container *ngIf="isProductsListOn" ></app-products-container>
 

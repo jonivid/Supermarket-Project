@@ -28,10 +28,11 @@ router.get("/orderscount", async (req, res, next) => {
 // Make an order
 router.post("/", async (req, res, next) => {
     let orderDetails = req.body;
-    console.log(orderDetails);
+    let cartId = cacheModule.get("cartId");
+    let userId = cacheModule.extractUserDataFromCache(req).id;
 
     try {
-        await ordersLogic.order(orderDetails);
+        await ordersLogic.order(orderDetails,cartId,userId);
         res.json();
 
     } catch (err) {

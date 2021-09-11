@@ -10,10 +10,10 @@ async function ordersCount() {
     return await ordersDao.ordersCount();
 }
 
-async function order(orderDetails) {
+async function order(orderDetails,cartId,userId) {
     validations(orderDetails);
-    await ordersDao.order(orderDetails);
-    await cartDao.emptyCart(orderDetails.currentCart.id)
+    await ordersDao.order(orderDetails,cartId,userId);
+    await cartDao.emptyCart(cartId)
 }
 
 function validations(order) {

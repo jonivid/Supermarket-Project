@@ -2,7 +2,7 @@ let connection = require("./connection-wrapper");
 let ErrorType = require("../errors/error-type");
 let ServerError = require("../errors/server-error");
 
-async function getCustomersCart(customerId) {
+async function getCustomersCart(userId) {
     let sql = `SELECT 
                     id, 
                     date_created AS 'dateCreated',  
@@ -13,7 +13,7 @@ async function getCustomersCart(customerId) {
                 user_id = ?`;
 
     try {
-        let userCarts = await connection.executeWithParameters(sql, customerId);
+        let userCarts = await connection.executeWithParameters(sql, userId);
         let userRecentCart = userCarts[userCarts.length - 1];
         return userRecentCart;
 
@@ -22,17 +22,16 @@ async function getCustomersCart(customerId) {
     }
 }
 
-async function createCart(customerId) {
+async function createCart(userId, currentDate) {
     let sql = `INSERT INTO carts 
                (user_id, date_created) 
                VALUES(?, ?)`;
 
-    let currentDate = new Date().toISOString().split('T')[0];
-    let parameters = [customerId, currentDate];
+    let parameters = [userId, currentDate];
 
     try {
         await connection.executeWithParameters(sql, parameters);
-        return getCustomersCart(customerId);
+        return getCustomersCart(userId);
 
     } catch (err) {
         throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);
