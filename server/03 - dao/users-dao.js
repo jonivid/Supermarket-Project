@@ -1,20 +1,39 @@
 const connection = require('./connection-wrapper')
+let ErrorType = require("../errors/error-type");
+let ServerError = require("../errors/server-error");
 
-async function getAll() {
-    let sql = `SELECT * from users`
-    const users = await connection.execute(sql)
-    return users
+
+async function registerFirstStep(userRegistrationDetails) {
+
+    let sqlEmail = `SELECT * FROM users WHERE email = ?`;
+    let paramEmail = [userRegistrationDetails.email];
+
+    let email = await connection.executeWithParameters(sqlEmail, paramEmail);
+    if (email[0]) {
+        throw new ServerError(ErrorType.EMAIL_ALREADY_EXIST);
+    }
+
+    let sqlId = `SELECT * FROM users WHERE id_number = ?`;
+    let paramId = [userRegistrationDetails.idNumber];
+
+    let id = await connection.executeWithParameters(sqlId, paramId);
+    if (id[0]) {
+        throw new ServerError(ErrorType.ID_ALREADY_EXIST);
+    }
 }
+async function registerSeconedStep(userRegistrationDetails) {
 
-async function register(userRegistrationDetails) {
     let sql = `INSERT INTO users ( email, password,first_name, last_name,city,street,id_number)
     VALUES(?,?,?,?,?,?,?);`
-    let parameters = [ userRegistrationDetails.email, userRegistrationDetails.password, userRegistrationDetails.firstName,
-    userRegistrationDetails.lastName, userRegistrationDetails.city, userRegistrationDetails.street,userRegistrationDetails.idNumber]
-    console.log("parameters", parameters);
+    let parameters = [userRegistrationDetails.email, userRegistrationDetails.password, userRegistrationDetails.firstName,
+    userRegistrationDetails.lastName, userRegistrationDetails.city, userRegistrationDetails.street, userRegistrationDetails.idNumber]
 
-    let userRegistrationResult = await connection.executeWithParameters(sql, parameters)
-    return userRegistrationResult.insertId;
+    try {
+        await connection.executeWithParameters(sql, parameters)
+    }
+    catch (err) {
+        return userRegistrationResult.insertId;
+    }
 }
 
 async function login(userLoginDetails) {
@@ -35,7 +54,7 @@ async function deleteUser(userId) {
 async function isUserNameExist(userName) {
     try {
         console.log(userName);
-        let sql = `SELECT user_name from users where user_name=?`
+        let sql = `SELECT email from users where email=?`
         parameters = [userName]
         const userExistResult = await connection.executeWithParameters(
             sql,
@@ -51,7 +70,26 @@ async function isUserNameExist(userName) {
     catch (err) {
         throw new Error(`validate userName test failed`)
     }
+}
+async function isUserIdExist(userId) {
+    try {
+        let sql = `SELECT id_number from users where id_number=?`
+        parameters = [userId]
+        const userExistResult = await connection.executeWithParameters(
+            sql,
+            parameters);
+        if (userExistResult == null || userExistResult.length === 0) {
+            console.log('doesnt exist');
+            return false;
+        }
+        console.log('exist');
+        return true;
+    }
+    catch (err) {
+        throw new ServerError(ErrorType.ID_ALREADY_EXIST);
+
+    }
 
 }
 
-module.exports = { register, login, deleteUser, isUserNameExist, getAll }
+module.exports = { registerFirstStep, registerSeconedStep, login, deleteUser, isUserNameExist, isUserIdExist }

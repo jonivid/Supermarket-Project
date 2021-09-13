@@ -16,6 +16,9 @@ export class ProductsService {
   public getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>('http://localhost:3001/products');
   }
+  public getProductsQuantity(): Observable<Product[]> {
+    return this.http.get<Product[]>('http://localhost:3001/products/quantity');
+  }
   public createNewProduct(
     newProductDetails: NewProduct
   ): Observable<any> {

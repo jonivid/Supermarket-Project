@@ -30,14 +30,20 @@ export class UsersService {
     );
     // return this.http.post<SuccessfulLoginServerResponse>("/api/login", userLoginDetails);
   }
-  public register(
+  public registerFirstStep(
     userRegisterDetails: UserDetails
-  ): Observable<SuccessfulLoginServerResponse> {
-    //  The http request will be sent after the subscribe() method will be called
-    return this.http.post<SuccessfulLoginServerResponse>(
-      'http://localhost:3001/users/',
+  ): Observable<any> {
+    return this.http.post<any>(
+      'http://localhost:3001/users/registerfirststep',
       userRegisterDetails
     );
-    // return this.http.post<SuccessfulLoginServerResponse>("/api/login", userLoginDetails);
+  }
+  public registerSeconedStep(
+    userRegisterDetails: UserDetails
+  ): Observable<any> {
+    return this.http.post<any>(
+      'http://localhost:3001/users/registerseconedstep',
+      userRegisterDetails
+    );
   }
 }

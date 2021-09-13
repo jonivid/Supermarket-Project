@@ -9,14 +9,14 @@ let { secret } = config;
 function authenticateJwtRequestToken() {
     return expressJwt({ secret, algorithms: ["HS256"] }).unless({
         path: [
-            // Get market's status for guests
+
             '/home',
-
-            // Register
-            '/users',
-
-            // Login
+            '/users/registerfirststep',
+            '/users/registerseconedstep',
             '/users/login',
+            '/orders/orderscount',
+            '/products/quantity'
+
         ]
     });
 }

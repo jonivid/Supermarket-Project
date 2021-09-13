@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-cart-page',
@@ -26,6 +27,7 @@ export class CartPageComponent implements OnInit {
   public picker: Date = new Date();
   public takenDatesArray: Date[] = [];
   public fileUrl: any;
+  public currentDate: Date = new Date();
 
   constructor(
     public cartService: CartsService,
@@ -45,39 +47,30 @@ export class CartPageComponent implements OnInit {
       this.products = JSON.stringify(result);
       this.grandTotal = this.cartService.getTotalPrice();
     });
+    this.getOrdersBusyDates();
+    console.log(this.takenDatesArray);
   }
-  // removeItem(item: any) {
-  //   this.cartService.removeCartItem(item).subscribe((res) => {});
-  // }
-  // emptyCart() {
-  //   this.cartService.emptyCart().subscribe((res) => {});
-  // }
-  // updateCart(event: any, item: any) {
-  //   item.quantity = event.target.value;
-  //   item.totalPrice = item.quantity * item.price;
-  //   this.cartService.updateCart(item).subscribe((res: any) => {});
-  // }
+ 
 
   completeOrder() {
-    this.userOrderDetails.orderDate = new Date();
-    this.userOrderDetails.grandTotal = this.grandTotal;
-    let observable = this.ordersService.completeOrder(this.userOrderDetails);
-    observable.subscribe((res) => {});
-    const blob = new Blob([this.products], {
-      type: 'application/octet-stream',
-    });
-
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
+   
+      this.userOrderDetails.orderDate = new Date();
+      this.userOrderDetails.grandTotal = this.grandTotal;
+      let observable = this.ordersService.completeOrder(this.userOrderDetails);
+      observable.subscribe((res) => {});
+      const blob = new Blob([this.products], {
+        type: 'application/octet-stream',
+      });
+      
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        window.URL.createObjectURL(blob)
+        );
   }
 
-  acceptOrder(){
+  acceptOrder() {
+    this.cartService.emptyCart();
     this.router.navigate(['/customer']);
   }
-
-
-
 
   getOrdersBusyDates(): void {
     let observable = this.ordersService.getOrdersBusyDates();
@@ -92,9 +85,18 @@ export class CartPageComponent implements OnInit {
   }
 
   myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getTime();
-    return !this.takenDatesArray.find(
-      (date) => date.getTime() == day + 7200000
-    );
+    const day = (d || new Date()).getDate();
+    return !this.takenDatesArray.find((date) => date.getDate() == day );
   };
+  public busyDatesStyle: MatCalendarCellClassFunction<Date> = (cellDate, view): string => {
+    // Only highligh dates inside the month view.
+    if (view === 'month') {
+      const day = cellDate.getTime();
+
+      // Mark busy dates in gray.
+      return (this.takenDatesArray.find(date => date.getTime() == day + 7200000)) ? 'diabled-days' : '';
+    }
+
+    return '';
+  }
 }

@@ -5,17 +5,33 @@ const jwt = require('jsonwebtoken');
 const config = require('../config.json');
 const saltRight = "asdasdasdas";
 const saltLeft = "--mnlcfdsfsds;@!$ ";
+const ServerError = require("../errors/server-error");
+const ErrorType = require("../errors/error-type");
 
 
-async function getAll() {
-    const users = await usersDao.getAll()
-    return (users)
+async function registerFirstStep(userRegistrationDetails) {
+    validateUserDetails(userRegistrationDetails)
+    if (userRegistrationDetails.idNumber == null || userRegistrationDetails.idNumber == '') {
+        throw new ServerError(ErrorType.ID_FIELD_MISSING);
+    }
+    if (userRegistrationDetails.confirmPassword != userRegistrationDetails.password) {
+        throw new ServerError(ErrorType.PASSWORDS_DIDNT_MATCH);
+    }
+    return await usersDao.registerFirstStep(userRegistrationDetails);
 }
 
-async function register(userRegistrationDetails) {
-    // await validateUserDetails(userRegistrationDetails);
-    userRegistrationDetails.password = crypto.createHash("md5").update(saltLeft + userRegistrationDetails.password + saltRight).digest("hex");
-    const id = await usersDao.register(userRegistrationDetails)
+async function registerSeconedStep(userRegistrationDetails) {
+        if (userRegistrationDetails.firstName == null || userRegistrationDetails.firstName == '' || 
+        userRegistrationDetails.lastName == null || userRegistrationDetails.lastName == '' ||
+        userRegistrationDetails.city == null || userRegistrationDetails.city == '' ||
+        userRegistrationDetails.street == null || userRegistrationDetails.street == '' ) {
+            throw new ServerError(ErrorType.ALL_FIELDS_REQUIRED);
+        }
+    
+        
+        userRegistrationDetails.password = crypto.createHash("md5").update(saltLeft + userRegistrationDetails.password + saltRight).digest("hex");
+        return await usersDao.registerSeconedStep(userRegistrationDetails);
+    // const id = await usersDao.register(userRegistrationDetails)
     // return id
 
 }
@@ -46,35 +62,50 @@ async function deleteUser(userId) {
 }
 
 
-async function validateUserDetails(userRegistrationDetails) {
-    if (userRegistrationDetails.email === "") {
-        throw new Error(`userName is null`)
+function validateUserDetails(userDetails){
+    if (userDetails.email == null || userDetails.email == '') {
+        throw new ServerError(ErrorType.EMAIL_FIELD_MISSING);
     }
-    if (!isEmailFormat(userRegistrationDetails.email)) {
-        throw new Error('UserName is not in email format')
-    }
-    if (userRegistrationDetails.password == null) {
-        throw new Error(`userName is null`)
-    }
-    if (userRegistrationDetails.password.length < 6) {
-        throw new Error(`password too short`)
-    }
-    if (userRegistrationDetails.password.length > 12) {
-        throw new Error(`password too long`)
-    }
-    if (await usersDao.isUserNameExist(userRegistrationDetails.email)) {
-        throw new Error(`userName exists`)
-    }
-}
-function isEmailFormat(email) {
-    const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    if (emailRegexp.test(email)) {
-        return true
-    } else {
-        return false
+    if (userDetails.password == null || userDetails.password == '') {
+        throw new ServerError(ErrorType.PASSWORD_FIELD_MISSING);
     }
 }
 
 
-module.exports = { register, login, deleteUser, getAll, auth }
+
+// async function validateUserDetails(userRegistrationDetails) {
+//     if (userRegistrationDetails.email == "" || userRegistrationDetails.email == null ) {
+//         throw new Error(`userName is null`)
+//     }
+//     if (!isEmailFormat(userRegistrationDetails.email)) {
+//         throw new Error('UserName is not in email format')
+//     }
+//     if (userRegistrationDetails.password == null) {
+//         throw new Error(`userName is null`)
+//     }
+//     if (userRegistrationDetails.password.length < 6) {
+//         throw new Error(`password too short`)
+//     }
+//     if (userRegistrationDetails.password.length > 12) {
+//         throw new Error(`password too long`)
+//     }
+//     if (await usersDao.isUserNameExist(userRegistrationDetails.email)) {
+//         throw new Error(`userName exists`)
+//     }
+//     if (await usersDao.isUserIdExist(userRegistrationDetails.idNumber)) {
+//         throw new ServerError(ErrorType.ID_ALREADY_EXIST);
+
+//     }
+// }
+// function isEmailFormat(email) {
+//     const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+//     if (emailRegexp.test(email)) {
+//         return true
+//     } else {
+//         return false
+//     }
+// }
+
+
+module.exports = { registerFirstStep,registerSeconedStep, login, deleteUser, auth }
 

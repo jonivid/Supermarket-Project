@@ -26,9 +26,17 @@
         <span *ngIf="creditCardInput.touched && creditCardInput.errors?.required">"fill 4 last number of your credit card"</span><br>
         <span *ngIf="creditCardInput.touched && creditCardInput.errors?.pattern">"fill 4 last number of your credit card"</span><br>
         
-        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" name="shippingDate" #dateInput='ngModel' [(ngModel)]="userOrderDetails.shippingDate" required>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker><br>
+        <input 
+        matInput
+         [min]="currentDate" 
+         [matDatepicker]="picker" 
+         [matDatepickerFilter]="myFilter" 
+         name="shippingDate" 
+        #dateInput='ngModel'
+         [(ngModel)]="userOrderDetails.shippingDate" 
+         (click)="picker.open()" required>
+        <mat-datepicker-toggle matSuffix [for]="picker">shipping</mat-datepicker-toggle>
+        <mat-datepicker [dateClass]="busyDatesStyle" touchUi  #picker></mat-datepicker><br>
 
 
         <!-- <input type="date" name="shippingDate"  #dateInput='ngModel' [(ngModel)]="userOrderDetails.shippingDate" required ><br> -->

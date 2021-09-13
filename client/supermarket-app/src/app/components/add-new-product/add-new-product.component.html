@@ -1,38 +1,38 @@
+<h1>Create New Product</h1>  
 <form #registerForm='ngForm'>
-    <h1>Create New Product</h1>    
-    <mat-label>Enter product name</mat-label><br>
-    <input type="text" placeholder="product name" name="name"  autocomplete="on" 
-    #productNameInput='ngModel' [(ngModel)]="newProduct.name" required ><br>
-    <span *ngIf="productNameInput.errors?.required && productNameInput.touched">"You must enter product name"<br></span>
-    <mat-label>Enter product price</mat-label><br>
-    <input type="number" placeholder="product price" name="price"  autocomplete="on" 
-    #productPriceInput='ngModel' [(ngModel)]="newProduct.price" required min="1" pattern="^\d*(\.\d{0,2})?$" ><br>
-    <span *ngIf="productPriceInput.errors?.required && productPriceInput.touched">"You must enter product price"<br></span>
-    <span *ngIf="productPriceInput.errors?.min ">"Minimum product value is 1$"<br></span>
-    <span *ngIf="productPriceInput.errors?.pattern ">"Max decimal for product is only 2 digits"<br></span>
-    <input type="text" placeholder="Upload image file" name="image"  autocomplete="on" 
-     #productImageInput='ngModel' [(ngModel)]="newProduct.imageUrl" required ><br>
-     <span *ngIf="productImageInput.errors?.required && productImageInput.touched">"You must enter product image"<br></span>
+    <p>
+        <mat-form-field appearance="legacy" >
+          <mat-label>Product name</mat-label>
+          <input type="text" matInput placeholder="Product name" name="name" #productNameInput='ngModel'
+           [(ngModel)]="newProduct.name" required >
+        </mat-form-field><br>
+        <span *ngIf="productNameInput.errors?.required && productNameInput.touched" >"You must enter product name"<br></span>
+    </p>
+    <p>
+        <mat-form-field appearance="legacy" >
+          <mat-label>Product price</mat-label>
+          <input type="number" matInput placeholder="product price" name="price" #productPriceInput='ngModel'
+           [(ngModel)]="newProduct.price" required min="1" pattern="^\d*(\.\d{0,2})?$">
+        </mat-form-field><br>
+        <span *ngIf="productPriceInput.errors?.required && productPriceInput.touched">"You must enter product price"<br></span>
+        <span *ngIf="productPriceInput.errors?.min ">"Minimum product value is 1$"<br></span>
+        <span *ngIf="productPriceInput.errors?.pattern ">"Max decimal for product is only 2 digits"<br></span>
+    </p>
+    <p>
+        <mat-form-field appearance="legacy" >
+          <mat-label>Image URL</mat-label>
+          <input type="text" matInput placeholder="Insert image URL" name="image" #productImageInput='ngModel'
+           [(ngModel)]="newProduct.imageUrl" required>
+        </mat-form-field><br>
+        <span *ngIf="productImageInput.errors?.required && productImageInput.touched">"You must enter product image URL "<br></span>
+    </p>
+
      <select [ngModel]="newProduct.categoryId" (ngModelChange)="onChange($event)" name="category" required
      #categoryInput='ngModel' >
          <option *ngFor="let category of categoriesService.categories " value="{{category.id}}" >{{category.name}} </option>
      </select><br>
-     <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>    <!-- <input type="text" placeholder="product name" name="name"  autocomplete="on" 
-    #productNameInput='ngModel' [(ngModel)]="newProduct.name" required ><br>
-    <span *ngIf="IdNumberInput.errors?.minlength">"Id number minlength 8 characthers"<br></span>
-    <span *ngIf="IdNumberInput.errors?.maxlength">"Id number maxlength 9 characthers"<br></span>
-    <input type="email" placeholder="email" name="email"  autocomplete="on"
-    #emailInput='ngModel' [(ngModel)]="userRegisterDetails.email" required ngModel [email]="true"><br>
-    <span *ngIf="emailInput.errors?.email">"you need to fill value in email format"<br></span>
-    <input type="password" placeholder="Password" name="password"  autocomplete="on"
-    #passwordInputRegister='ngModel' [(ngModel)]="userRegisterDetails.password" required minlength="8" maxlength="12"><br>
-    <span *ngIf="passwordInputRegister.errors?.minlength">"password min length 8 characthers"<br></span>
-    <span *ngIf="passwordInputRegister.errors?.maxlength">"password max length 12 characthers"<br></span>
-    <input type="password" placeholder="Confirm Password" name="confirmPassword"  autocomplete="on"
-    #confirmPasswordInput='ngModel' [(ngModel)]="userRegisterDetails.confirmPassword" required minlength="8" maxlength="12"><br>
-    <span *ngIf="confirmPasswordInput.errors?.minlength">"password min length 8 characthers"<br></span>
-    <span *ngIf="confirmPasswordInput.errors?.maxlength">"password max length 12 characthers"<br></span>
-    <!-- <input type="button" (click)="handleFormState()" value="next step"  [disabled]='registerForm.form.invalid' />  -->
+     <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>    
+
     <button mat-raised-button color="accent" (click)="createProduct()"   [disabled]='registerForm.form.invalid'>Create</button>
 
 </form>

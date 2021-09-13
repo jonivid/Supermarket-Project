@@ -54,7 +54,7 @@ export class LoginAndRegisterComponent implements OnInit {
       this.ordersCount = countResult[0].ordersNumber;
     });
 
-    let observableProducts = this.productsService.getAllProducts();
+    let observableProducts = this.productsService.getProductsQuantity();
     observableProducts.subscribe(
       (productsList) => {
         // console.log(productsList);
@@ -85,28 +85,36 @@ export class LoginAndRegisterComponent implements OnInit {
     this.stepTwo = false;
   }
 
-  handleFormState() {
-    this.stepOneLogin = false;
-    this.stepOneRegister = false;
-    this.stepTwo = true;
+  registerFirstStep() {
+   
+    let registerObservable = this.usersService.registerFirstStep(
+      this.userRegisterDetails
+    );
+    registerObservable.subscribe(
+      (successfulServerRequestData) => {
+        this.stepOneLogin = false;
+        this.stepOneRegister = false;
+        this.stepTwo = true;
+                // this.router.navigate(['/home']);
+      },
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
+        }
+    );
   }
 
-  register(): void {
-    let registerObservable = this.usersService.register(
+  registerSeconedStep(): void {
+    let registerObservable = this.usersService.registerSeconedStep(
       this.userRegisterDetails
     );
     registerObservable.subscribe(
       (successfulServerRequestData) => {
         // console.log(successfulServerRequestData);
-        this.router.navigate(['/customer']);
-      },
+        this.handleSignIn() 
+      this.userRegisterDetails=new UserDetails()},
       (serverErrorResponse) => {
-        alert(
-          'Error! Status: ' +
-            serverErrorResponse.status +
-            ', Message: ' +
-            serverErrorResponse.message
-        );
+        alert(serverErrorResponse.error.error)
+
       }
     );
   }

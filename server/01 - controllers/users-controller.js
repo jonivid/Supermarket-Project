@@ -18,19 +18,32 @@ router.get('/:tokenInfo', async (req, res, next) => {
     }
 })
 
-//register new user
-router.post('/', async (req, res, next) => {
+// register first step
+router.post('/registerfirststep', async (req, res, next) => {
     try {
         const userRegistrationDetails = req.body;
-        console.log(userRegistrationDetails);
-        const id = await usersLogic.register(userRegistrationDetails)
-        res.json(id)
+        await usersLogic.registerFirstStep(userRegistrationDetails)
+        res.json()
 
     }
     catch (error) {
         return next(error);
     }
 })
+
+// register seconed step
+
+router.post('/registerseconedstep', async (req, res, next) => {
+    try {
+        const userRegistrationDetails = req.body;
+        await usersLogic.registerSeconedStep(userRegistrationDetails)
+        res.json()
+    }
+    catch (error) {
+        return next(error);
+    }
+})
+
 //user login
 router.post('/login', async (req, res, next) => {
     const userLoginDetails = req.body;
@@ -42,6 +55,7 @@ router.post('/login', async (req, res, next) => {
         return next(error);
     }
 })
+
 // Logout
 router.post("/logout", async (req, res, next) => {
     let token = req.body;

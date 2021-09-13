@@ -14,6 +14,16 @@ router.get("/", async (req, res, next) => {
         return next(error);
     }
 });
+router.get("/quantity", async (req, res, next) => {
+    try {
+        const allProducts = await productsLogic.getAllProducts();
+        res.json(allProducts);
+    }
+    catch (error) {
+        return next(error);
+    }
+});
+
 
 // Add new product
 router.post("/", async (req, res, next) => {

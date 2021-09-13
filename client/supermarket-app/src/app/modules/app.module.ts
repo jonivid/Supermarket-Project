@@ -37,7 +37,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddNewProductComponent } from '../components/add-new-product/add-new-product.component';
 import { EditProductComponent } from '../components/edit-product/edit-product.component';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterceptor';
 
 @NgModule({
@@ -82,9 +82,16 @@ import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterce
     MatNativeDateModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [LayoutComponent],
 })
 export class AppModule {}
