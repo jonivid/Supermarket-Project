@@ -19,7 +19,7 @@
 .form-container {
   position: absolute;
   left: 440px;
-  top: 150px;
+  top: 88px;
   display: inline;
 
 
@@ -28,4 +28,11 @@
 .container {
   position: absolute;
   top: 100px;
+}
+input,button {
+  margin: 10px;
+}
+
+span{
+  color: rgb(247, 120, 97);
 }

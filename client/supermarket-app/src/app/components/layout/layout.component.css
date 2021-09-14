@@ -21,11 +21,15 @@ footer {
 }
 
 aside {
+  min-width: 380px;
   overflow-y: scroll;
   grid-column: span 3;
+  resize: horizontal;
+  overflow: auto;
 }
 
 main {
+  flex: 1;
   overflow-y: scroll;
   grid-column: span 9;
 }

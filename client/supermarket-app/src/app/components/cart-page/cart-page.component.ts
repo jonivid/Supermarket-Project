@@ -6,7 +6,7 @@ import { StateService } from 'src/app/services/state.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
 import { CartItem } from 'src/app/models/CartItem';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -99,4 +99,11 @@ export class CartPageComponent implements OnInit {
 
     return '';
   }
+
+  dblClickStreet(orderForm:NgForm) {
+    orderForm.form.controls.street.setValue(this.ordersService.userStreet);
+} 
+ dblClickCity(orderForm:NgForm) {
+    orderForm.form.controls.city.setValue(this.ordersService.userCity);
+} 
 }

@@ -9,15 +9,16 @@ import { UserLoginDetails } from '../models/UserLoginDetails';
   providedIn: 'root',
 })
 export class UsersService {
-  isAdmin: string = "";
+  isAdmin: string = '';
+  firstName?: string
+ 
+
   constructor(private http: HttpClient) {}
 
-  public auth():Observable<any> {
+  public auth(): Observable<any> {
     const token = localStorage.getItem('token');
     // console.log(token);
-    return this.http.get<any>(
-      `http://localhost:3001/users/${token}`
-    );
+    return this.http.get<any>(`http://localhost:3001/users/${token}`);
   }
 
   public login(
@@ -30,9 +31,7 @@ export class UsersService {
     );
     // return this.http.post<SuccessfulLoginServerResponse>("/api/login", userLoginDetails);
   }
-  public registerFirstStep(
-    userRegisterDetails: UserDetails
-  ): Observable<any> {
+  public registerFirstStep(userRegisterDetails: UserDetails): Observable<any> {
     return this.http.post<any>(
       'http://localhost:3001/users/registerfirststep',
       userRegisterDetails

@@ -12,8 +12,11 @@
   
        <button *ngIf="!this.stateService.isCartContainer && this.stateService.isLoggedIn && this.usersService.isAdmin==='CUSTOMER' "  (click)="toggleCartPage()" mat-icon-button matTooltip="back to shopping page" matTooltipPosition="left"><mat-icon aria-hidden="false" 
      aria-label="e88a">home</mat-icon></button>
+     
+     <span *ngIf='this.usersService.firstName && this.stateService.isLoggedIn' class="username-nav">Hello {{this.usersService.firstName}}</span>
+
     <button   (click)="logout()" mat-icon-button class="log-out-btn"  matTooltip="Click to logout" matTooltipPosition="left" aria-label="Example icon-button with share icon">
-     <mat-icon aria-hidden="false" aria-label="e9ba">logout</mat-icon> <br>
+      <mat-icon aria-hidden="false" aria-label="e9ba">logout</mat-icon> <br>
        </button>
   </mat-toolbar>
 

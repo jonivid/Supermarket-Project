@@ -3,11 +3,17 @@
   right: 15px;
 }
 
+.username-nav {
+  position: absolute;
+  right: 120px;
+}
+
 .cart-btn {
   position: absolute;
   right: 65px
 }
 
-button,span{
+button,
+span {
   margin-right: 20px;
 }

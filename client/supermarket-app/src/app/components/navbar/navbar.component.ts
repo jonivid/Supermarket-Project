@@ -13,9 +13,8 @@ export class NavbarComponent implements OnInit {
   public products: any[] = [];
   constructor(
     public stateService: StateService,
-    private userService: UsersService,
-    public cartService: CartsService,
     public usersService: UsersService,
+    public cartService: CartsService,
     private router: Router
   ) {}
 
@@ -31,7 +30,7 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('userId');
     this.stateService.isLoggedIn = false;
     this.stateService.isCartContainer = false;
-    this.userService.isAdmin = "";
+    this.usersService.isAdmin = "";
     this.router.navigate(['/home']);
   }
   toggleCartPage() {
@@ -42,5 +41,6 @@ export class NavbarComponent implements OnInit {
   }
   backToProductsPage(){
     this.router.navigate(['/admin'])
+ 
   }
 }

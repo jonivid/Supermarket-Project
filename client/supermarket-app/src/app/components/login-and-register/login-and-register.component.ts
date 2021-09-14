@@ -44,11 +44,11 @@ export class LoginAndRegisterComponent implements OnInit {
     private stateService: StateService,
     public cartService: CartsService,
     public productsService: ProductsService,
-    public orderService: OrdersService
+    public ordersService: OrdersService
   ) {}
 
   ngOnInit(): void {
-    let observableOrderCount = this.orderService.getOrdersCount();
+    let observableOrderCount = this.ordersService.getOrdersCount();
     observableOrderCount.subscribe(
       (countResult) => {
       this.ordersCount = countResult[0].ordersNumber;
@@ -123,6 +123,7 @@ export class LoginAndRegisterComponent implements OnInit {
     let loginObservable = this.usersService.login(this.userLoginDetails);
     loginObservable.subscribe(
       (successfulServerRequestData) => {
+        this.usersService.firstName=successfulServerRequestData.userDetails.firstName
         this.stateService.isLoggedIn = true;
         this.usersService.isAdmin = successfulServerRequestData.isAdmin;
         localStorage.setItem(
@@ -134,9 +135,9 @@ export class LoginAndRegisterComponent implements OnInit {
           localStorage.setItem('userFirstName', 'admin');
           this.router.navigate(['/admin']);
         } else if (successfulServerRequestData.isAdmin == 'CUSTOMER') {
-          this.orderService.userCity =
+          this.ordersService.userCity =
             successfulServerRequestData.userDetails.city;
-          this.orderService.userStreet =
+          this.ordersService.userStreet =
             successfulServerRequestData.userDetails.street;
           localStorage.setItem(
             'userFirstName',

@@ -13,19 +13,33 @@
     <form #orderForm='ngForm' autocomplete="off">
         <h1>Shipment Details</h1>
        
-        <input type="text" placeholder="city" name="city" autocomplete="off"
-        #cityInput='ngModel' [(ngModel)]="userOrderDetails.city" required><br>
-        <span *ngIf="cityInput.touched && cityInput.errors?.required">"city field is empty"</span><br>
+        <p>
+          <mat-form-field appearance="legacy" >
+            <mat-label>City</mat-label>
+            <input type="text" matInput placeholder="City" name="city" #cityInput='ngModel'
+             [(ngModel)]="userOrderDetails.city" (dblclick)='dblClickCity(orderForm)' required >
+          </mat-form-field><br>
+          <span *ngIf="cityInput.touched && cityInput.errors?.required">city field is empty"<br></span>
+      </p>
+        <p>
+          <mat-form-field appearance="legacy" >
+            <mat-label>Street</mat-label>
+            <input type="text" matInput placeholder="Street" name="street" #streetInput='ngModel'
+             [(ngModel)]="userOrderDetails.street" (dblclick)='dblClickStreet(orderForm)' required >
+          </mat-form-field><br>
+          <span *ngIf="streetInput.touched && streetInput.errors?.required">"street field is empty"</span><br>
+        </p>
+        <p>
+          <mat-form-field appearance="legacy" >
+            <mat-label>Credit card</mat-label>
+            <input type="number" matInput placeholder="fill 4 last number of your credit card" name="creditCard"
+             #creditCardInput='ngModel' [(ngModel)]="userOrderDetails.creditCard" pattern="[0-9]{4}" required >
+          </mat-form-field><br>
+          <span *ngIf="creditCardInput.touched && creditCardInput.errors?.required">"fill 4 last number of your credit card"</span><br>
+          <span *ngIf="creditCardInput.touched && creditCardInput.errors?.pattern">"fill 4 last number of your credit card"</span><br>  
+        </p>
+        <mat-label>Choose shipping date:</mat-label>
 
-        <input type="text" placeholder="street" name="street"   autocomplete="off"
-        #streetInput='ngModel' [(ngModel)]="userOrderDetails.street" required><br>
-        <span *ngIf="streetInput.touched && streetInput.errors?.required">"street field is empty"</span><br>
-
-        <input type="number" name="creditCard" placeholder="fill 4 last number of your credit card"
-        #creditCardInput='ngModel' [(ngModel)]="userOrderDetails.creditCard" pattern="[0-9]{4}" required ><br>
-        <span *ngIf="creditCardInput.touched && creditCardInput.errors?.required">"fill 4 last number of your credit card"</span><br>
-        <span *ngIf="creditCardInput.touched && creditCardInput.errors?.pattern">"fill 4 last number of your credit card"</span><br>
-        
         <input 
         matInput
          [min]="currentDate" 
@@ -39,7 +53,6 @@
         <mat-datepicker [dateClass]="busyDatesStyle" touchUi  #picker></mat-datepicker><br>
 
 
-        <!-- <input type="date" name="shippingDate"  #dateInput='ngModel' [(ngModel)]="userOrderDetails.shippingDate" required ><br> -->
         <button mat-raised-button color="accent" 
         (click)="completeOrder()" [disabled]='orderForm.form.invalid' data-bs-toggle="modal" data-bs-target="#exampleModal">Complete Order</button>
     </form>
