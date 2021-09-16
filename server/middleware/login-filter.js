@@ -15,7 +15,8 @@ function authenticateJwtRequestToken() {
             '/users/registerseconedstep',
             '/users/login',
             '/orders/orderscount',
-            '/products/quantity'
+            '/products/quantity',
+            '/products/imagefile',
 
         ]
     });

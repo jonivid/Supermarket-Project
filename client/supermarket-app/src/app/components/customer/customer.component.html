@@ -1,5 +1,5 @@
-
-<div *ngIf="this.isCartOpen ===2 || this.isCartOpen ===3"  id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<!-- 
+<div *ngIf="this.isCartOpen ===2 || this.isCartOpen ===3"  id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" >
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -29,9 +29,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
-
-
+  </div> -->
 
   <div>
     <h1>{{this.cartStatusMessage}}</h1>
@@ -39,4 +37,28 @@
 <button *ngIf="this.isCartOpen ===2" mat-raised-button color="primary" (click)="toggleCartContainer2()" >Continue shopping ...</button>
 <button *ngIf="this.isCartOpen ===3" mat-raised-button color="accent" (click)="toggleCartContainer()">Click to start shopping</button>
 <app-products-container *ngIf="isProductsListOn" ></app-products-container>
+
+<hr>
+
+<div *ngIf="this.isCartOpen ===2 || this.isCartOpen ===3">
+  <div>
+    <img src="../../../assets/fresh vegi.jpeg" alt="fresh vegi" id="img-info">
+    <h1>Every day fresh vegetables are being harvested from the field  </h1>
+</div>
+<div>
+  <img src="../../../assets/cheese.jpg" alt="cheese" id="img-info">
+  <h1>Quality dairy products are being shipped from around the world</h1>
+</div>
+<div>
+  <img src="../../../assets/red_meat.jpg" alt="red_meat" id="img-info">
+  <h1>Variety of different meat with quality taste </h1>
+</div>
+<div>
+  <img src="../../../assets/bread.jpg" alt="bread" id="img-info">
+  <h1>Daily baked bread straight from the oven</h1>
+</div>
+</div>
+
+
+
 

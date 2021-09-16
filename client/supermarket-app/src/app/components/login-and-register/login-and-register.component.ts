@@ -7,6 +7,7 @@ import { UserLoginDetails } from 'src/app/models/UserLoginDetails';
 import { UsersService } from 'src/app/services/users.service';
 import { StateService } from 'src/app/services/state.service';
 import { CartsService } from 'src/app/services/carts.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-and-register',
@@ -111,7 +112,12 @@ export class LoginAndRegisterComponent implements OnInit {
       (successfulServerRequestData) => {
         // console.log(successfulServerRequestData);
         this.handleSignIn() 
-      this.userRegisterDetails=new UserDetails()},
+        this.userLoginDetails.email=this.userRegisterDetails.email 
+        this.userLoginDetails.password=this.userRegisterDetails.password
+      this.userRegisterDetails=new UserDetails()
+        this.login()
+    
+    },
       (serverErrorResponse) => {
         alert(serverErrorResponse.error.error)
 

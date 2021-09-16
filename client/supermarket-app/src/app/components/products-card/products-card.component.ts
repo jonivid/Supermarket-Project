@@ -34,6 +34,7 @@ export class ProductsCardComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.data = data;
+    dialogConfig.position={top:"140px"}
     const dialogRef = this.dialog.open(ProductModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((data) => this.addToCart(data));
   }

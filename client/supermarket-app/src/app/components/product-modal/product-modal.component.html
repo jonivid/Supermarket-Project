@@ -1,11 +1,12 @@
 <div class='modal-container'>
     <h1>{{data.name}}</h1>
     <img src="{{data.imageUrl}}" alt="">
-    <button (click)="increment()">+</button>
+    <h3>Fill reuested quantiy:</h3>
+    <button mat-icon-button color="primary" (click)="increment()"><mat-icon aria-hidden="false" aria-label="e9ba">add_circle</mat-icon></button>
     <input type="number" value="{{quantity}}">
-    <button (click)="decrement()">-</button><br>
+    <button mat-icon-button color="warn" (click)="decrement()"><mat-icon aria-hidden="false" aria-label="e9ba">remove_circle</mat-icon></button><br>
     <span>price: {{this.totalPrice}}</span>
     <hr>
-    <button (click)= "save()">Add to cart</button>
-    <button (click)="close()">Close</button>
+    <button (click)= "save()" class="add-to-cart">Add to cart</button>
+    <button (click)="close()" class="add-to-cart">Close</button>
 </div>

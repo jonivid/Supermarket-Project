@@ -32,8 +32,8 @@ router.post("/", async (req, res, next) => {
     let userId = cacheModule.extractUserDataFromCache(req).id;
 
     try {
-        await ordersLogic.order(orderDetails,cartId,userId);
-        res.json();
+        let orderNumber = await ordersLogic.order(orderDetails,cartId,userId);
+        res.json(orderNumber);
 
     } catch (err) {
         return next(err);

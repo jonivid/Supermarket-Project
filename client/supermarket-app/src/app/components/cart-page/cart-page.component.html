@@ -5,7 +5,7 @@
     </div>
     <span><input type="text"  [(ngModel)]="textToHighlight" placeholder="Search product by name" 
         class="search-by-name"></span>
-        <p [innerHTML]="products | highlightSearch :textToHighlight"></p>
+        <p [innerHTML]="productsString | highlightSearch :textToHighlight"></p>
     <div class="order-total">
         total price: {{grandTotal}}
     </div>
@@ -54,12 +54,19 @@
 
 
         <button mat-raised-button color="accent" 
-        (click)="completeOrder()" [disabled]='orderForm.form.invalid' data-bs-toggle="modal" data-bs-target="#exampleModal">Complete Order</button>
+        (click)="completeOrder(orderForm)" [disabled]='orderForm.form.invalid' *ngIf="this.isCompleteBtn"
+        > Complete Order</button>
+        <h3 *ngIf='this.isProgressBarOpen'>Please wait while your order is being proccesed  </h3>
+        <mat-progress-bar mode="indeterminate" *ngIf='this.isProgressBarOpen'></mat-progress-bar>
+        <button mat-raised-button color="accent" 
+         *ngIf="this.isModalOpen" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+        > Finish Order</button>
     </form>
 </div>
 </div>
+<ng-container *ngIf="this.isModalOpen">
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -75,3 +82,4 @@
       </div>
     </div>
   </div>
+</ng-container>

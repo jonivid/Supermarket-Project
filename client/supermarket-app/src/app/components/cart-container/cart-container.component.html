@@ -13,7 +13,8 @@
             <p>category: <b>{{item.categoryName}}</b> </p>
             <p> Quantity: <input type="number" value="{{item.quantity}}" id="cart-item-q" (change)="updateCart($event,item)" min=1></p>
             <p>total price <b>{{item.totalPrice}} $</b></p>
-            <button class="cart-item-remove" (click)="removeItem(item)"><mat-icon aria-hidden="false" aria-label="e872">delete</mat-icon></button>
+            <button mat-icon-button color="warn" class="cart-item-remove" (click)="removeItem(item)"  matTooltip="Click to delete item" matTooltipPosition="right"><mat-icon aria-hidden="false" aria-label="e872">delete_forever</mat-icon></button>
+            
         </div>
     </div>
     <hr>
@@ -21,7 +22,9 @@
     <div class="cart-bottom-content">
         <div class="order-total">total price: {{grandTotal}}</div>
         <div>
-            <button class="order-btn" (click)="completeOrder()">Order</button>
+            <button class="order-btn" (click)="completeOrder()"  matTooltip="Click to complet order" matTooltipPosition="right">Order</button>
         </div>
     </div>
 </div>
+
+

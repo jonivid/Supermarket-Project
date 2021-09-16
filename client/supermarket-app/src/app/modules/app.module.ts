@@ -6,7 +6,6 @@ import { LayoutComponent } from '../components/layout/layout.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { MenuComponent } from '../components/menu/menu.component';
 import { FooterComponent } from '../components/footer/footer.component';
-import { HomeComponent } from '../components/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -39,6 +38,13 @@ import { AddNewProductComponent } from '../components/add-new-product/add-new-pr
 import { EditProductComponent } from '../components/edit-product/edit-product.component';
 import { MatInputModule } from '@angular/material/input';
 import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterceptor';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
+import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -46,7 +52,6 @@ import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterce
     HeaderComponent,
     MenuComponent,
     FooterComponent,
-    HomeComponent,
     AdminComponent,
     CustomerComponent,
     ProductsContainerComponent,
@@ -83,6 +88,9 @@ import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterce
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatInputModule,
+    FileUploadModule,
+    MatCardModule,
+    MatProgressBarModule
 
   ],
   providers: [

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FileUploadValidators } from '@iplab/ngx-file-upload';
 import { NewProduct } from 'src/app/models/NewProduct';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
@@ -11,7 +13,12 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class AddNewProductComponent implements OnInit {
   newProduct: NewProduct = new NewProduct();
+ 
+ 
+ 
+
   
+    
   constructor(public categoriesService: CategoriesService, public productsService: ProductsService,
     private router: Router,
     ) {}
@@ -29,15 +36,18 @@ export class AddNewProductComponent implements OnInit {
     );
   }
 
-  uploadImg(event: any) {}
 
   createProduct() {
     let observable=this.productsService.createNewProduct(this.newProduct)
     observable.subscribe((res)=>{})
     this.router.navigate(['/admin']);
-
   }
   onChange(e: any) {
     this.newProduct.categoryId = e;
   }
+
+
+
+
+  
 }

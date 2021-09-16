@@ -5,3 +5,20 @@ img {
 }
 
 
+.add-to-cart {
+  color: rgb(22, 87, 71);
+  margin: 10px;
+  width: 100px;
+  align-self: center;
+  border-radius: 12px;
+}
+
+.add-to-cart:hover {
+  font-weight: bolder;
+  color: rgb(0, 6, 10);
+  /* width: 120px; */
+  transition: color 0.5s;
+  background-color: rgb(114, 224, 197);
+}
+
+

@@ -38,6 +38,7 @@ async function order(orderDetails, cartId, userId) {
                (cart_id, user_id, final_price, shipping_city, shipping_street, shipping_date, date_created, credit_card) 
                VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
 
+    let sql2=`SELECT id from orders where cart_id="?"`           
     let orderDate = orderDetails.orderDate.split("T")[0];
     let shippingDate = orderDetails.shippingDate.split("T")[0];
 
@@ -45,10 +46,13 @@ async function order(orderDetails, cartId, userId) {
         cartId, userId, orderDetails.grandTotal, orderDetails.city, orderDetails.street,
         shippingDate, orderDate, orderDetails.creditCard
     ];
+    let parameters2=[cartId]
     try {
         console.log(parameters);
         await connection.executeWithParameters(sql, parameters);
         await closeCart(cartId);
+        //return order number
+        return connection.executeWithParameters(sql2, parameters2);
 
     } catch (err) {
         throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);

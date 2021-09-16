@@ -12,8 +12,9 @@ async function ordersCount() {
 
 async function order(orderDetails,cartId,userId) {
     validations(orderDetails);
-    await ordersDao.order(orderDetails,cartId,userId);
+    let orderNumber= await ordersDao.order(orderDetails,cartId,userId);
     await cartDao.emptyCart(cartId)
+    return orderNumber
 }
 
 function validations(order) {

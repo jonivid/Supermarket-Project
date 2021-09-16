@@ -19,6 +19,7 @@ import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 })
 export class CartPageComponent implements OnInit {
   public products: any = '';
+  public productsString: any = '';
   public userOrderDetails: OrderDetails = new OrderDetails();
   cartItems: CartItem[] = [];
   public grandTotal: number = 0;
@@ -28,11 +29,15 @@ export class CartPageComponent implements OnInit {
   public takenDatesArray: Date[] = [];
   public fileUrl: any;
   public currentDate: Date = new Date();
+  public orderNumber?:number
+  public isModalOpen:boolean=false
+  public isProgressBarOpen:boolean=false
+  public isCompleteBtn:boolean=true
 
   constructor(
     public cartService: CartsService,
     public stateService: StateService,
-    public userService: UsersService,
+    public usersService: UsersService,
     public ordersService: OrdersService,
     private router: Router,
     private sanitizer: DomSanitizer
@@ -40,31 +45,76 @@ export class CartPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.productsList().subscribe((res) => {
+      this.products=res
       let result = res.map((item: any) => {
-        let p = `name : ${item.name}, categoryName : ${item.categoryName}, price : ${item.price}, quantity : ${item.quantity}, totalPrice : ${item.totalPrice} <hr>`;
+        let p = `name : ${item.name}, price : ${item.price}, quantity : ${item.quantity}, totalPrice : ${item.totalPrice} `;
         return p;
       });
-      this.products = JSON.stringify(result);
+      this.productsString = JSON.stringify(result);
       this.grandTotal = this.cartService.getTotalPrice();
     });
     this.getOrdersBusyDates();
-    console.log(this.takenDatesArray);
+    
   }
  
 
-  completeOrder() {
-   
+  completeOrder(orderForm:NgForm) {
+
       this.userOrderDetails.orderDate = new Date();
       this.userOrderDetails.grandTotal = this.grandTotal;
       let observable = this.ordersService.completeOrder(this.userOrderDetails);
-      observable.subscribe((res) => {});
-      const blob = new Blob([this.products], {
-        type: 'application/octet-stream',
+      observable.subscribe((res) => {
+        console.log(res[0]);
+        
+        this.orderNumber=res[0].id
+        
+     
+     
+     let invoice = `Order number: ${this.orderNumber} 
+     
+     hey ${this.usersService.firstName} thank you for buying in VidalMarket
+     
+     Your order will be shipped to:
+     City: ${this.userOrderDetails.city}
+     Street: ${this.userOrderDetails.street}
+     Shipping date: ${this.userOrderDetails.shippingDate?.toDateString()}
+
+     Here is the list of item in your cart:
+     `
+     for(let product of this.products){
+       invoice+= `${product.name} 
+       Quantiy: ${product.quantity}
+       Price: ${product.price}
+       Total: ${product.totalPrice}
+       `
+     }
+     invoice+= `
+     Total Price: ${this.userOrderDetails.grandTotal} $ 
+     
+     See you again in your next buy
+
+     `
+      const blob = new Blob([invoice], {
+        type: 'text/plain',
       });
       
-      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        window.URL.createObjectURL(blob)
-        );
+      
+
+        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+          window.URL.createObjectURL(blob)
+          );
+          console.log(orderForm.disabled);
+     if(!orderForm.disabled){
+       this.isCompleteBtn=false
+       this.isProgressBarOpen=true
+       setTimeout(() => {
+        this.isProgressBarOpen=false
+        this.isModalOpen=true
+       }, 5000);
+    
+        }
+
+      });
   }
 
   acceptOrder() {
@@ -89,11 +139,9 @@ export class CartPageComponent implements OnInit {
     return !this.takenDatesArray.find((date) => date.getDate() == day );
   };
   public busyDatesStyle: MatCalendarCellClassFunction<Date> = (cellDate, view): string => {
-    // Only highligh dates inside the month view.
     if (view === 'month') {
       const day = cellDate.getTime();
 
-      // Mark busy dates in gray.
       return (this.takenDatesArray.find(date => date.getTime() == day + 7200000)) ? 'diabled-days' : '';
     }
 
