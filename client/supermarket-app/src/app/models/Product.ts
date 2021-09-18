@@ -7,5 +7,6 @@ export class Product {
         public price?: number,
         public categoryName?: string,
         public categoryId?: number,
+       
     ) { }
 }

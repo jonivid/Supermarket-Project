@@ -1,6 +1,14 @@
 <!-- <div *ngIf="!this.stateService.isLoggedIn">
     <app-home></app-home>
 </div> -->
+<div class="toggle-btns-container">
+    <button mat-stroked-button color="warn" *ngIf="this.isCartMinimize" (click)="this.isCartMinimize=!this.isCartMinimize" >Minimize cart</button>
+    <button mat-stroked-button color="primary" *ngIf="!this.isCartMinimize" (click)="!this.isCartMinimize=!this.isCartMinimize">Show cart</button>
+</div>
+<div *ngIf="this.isCartMinimize" 
+ [class.show-hide-cart]="isCartMinimize" 
+ class="show-hide-cart"
+ >
 <div *ngIf="stateService.isLoggedIn ">
     <div>
         <button mat-stroked-button color="warn" (click)="emptyCart()" class="empty-cart-btn">empty cart</button><hr>
@@ -26,5 +34,5 @@
         </div>
     </div>
 </div>
-
+</div>
 

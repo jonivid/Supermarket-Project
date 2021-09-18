@@ -3,6 +3,7 @@ export class CartItem {
   public constructor(
     public item?: Product,
     public quantity?: number,
-    public totalPrice?: number
+    public totalPrice?: number,
+    public isHighlighted?:boolean
   ) {}
 }

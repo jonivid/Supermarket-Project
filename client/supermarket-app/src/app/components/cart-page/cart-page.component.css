@@ -1,11 +1,11 @@
-.item-img {
+/* .item-img {
   width: 120px;
   height: 120px;
   border-radius: 4px;
   position: relative;
   left: 400px;
   top: 40px;
-}
+} */
 
 .item-container {
   height: 180px;
@@ -45,3 +45,15 @@
 
 }
 
+.cart-item-img {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  right: -152px;
+  top: -75px;
+}
+
+.item-list{
+  text-align: center;
+  margin-top: 15px;
+}

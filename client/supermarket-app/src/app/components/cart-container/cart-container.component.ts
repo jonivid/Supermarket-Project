@@ -15,6 +15,7 @@ export class CartContainerComponent implements OnInit {
   public products: any = [];
   public grandTotal: number = 0;
   public cartId?: any;
+  public isCartMinimize:boolean = false
   constructor(
     public cartService: CartsService,
     public stateService: StateService,

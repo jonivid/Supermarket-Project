@@ -67,7 +67,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     HighlightSearchPipe,
     AddNewProductComponent,
     EditProductComponent,
-  ],
+  ]
+  ,
   imports: [
     BrowserModule,
     AppRoutingModule,

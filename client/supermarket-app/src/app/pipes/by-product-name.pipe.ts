@@ -8,6 +8,7 @@ export class ByProductNamePipe implements PipeTransform {
 
   transform(products: Product[], productName: string): any {
     return products.filter(product =>(product.name?.toLowerCase().includes(productName.toLowerCase())))
+     
   }
 
 }

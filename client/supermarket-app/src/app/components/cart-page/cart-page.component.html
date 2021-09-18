@@ -4,8 +4,26 @@
         <h1>Cart item list</h1><hr>
     </div>
     <span><input type="text"  [(ngModel)]="textToHighlight" placeholder="Search product by name" 
-        class="search-by-name"></span>
+        class="search-by-name">
+    </span>
+
+    <div *ngFor='let currentProduct of products | byProductName :textToHighlight' class="item-list" >
+          <p>
+            {{currentProduct.name}}  <b>||</b> Price: {{currentProduct.price}} <br>
+          </p> 
+          <!-- <p>
+            Price: {{currentProduct.price}}<br>
+          </p>  -->
+          <p>
+            Quantity: {{currentProduct.quantity}} <b>||</b> item total price: {{currentProduct.totalPrice}}<br>
+          </p> 
+          <!-- <p>
+            item total price: {{currentProduct.totalPrice}}
+          </p>  -->
+          <img src={{currentProduct.imageUrl}} alt={{currentProduct.name}} class="cart-item-img">
+        </div>
         <p [innerHTML]="productsString | highlightSearch :textToHighlight"></p>
+        <hr>
     <div class="order-total">
         total price: {{grandTotal}}
     </div>
