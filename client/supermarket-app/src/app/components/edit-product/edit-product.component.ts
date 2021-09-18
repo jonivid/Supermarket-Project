@@ -22,11 +22,10 @@ export class EditProductComponent implements OnInit {
         this.categoriesService.categories = categoriesList;
 
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
       }
     );
-    console.log(this.productsService.productToEdit);
     this.prodcutToEdit=this.productsService.productToEdit
   }
 
@@ -35,9 +34,10 @@ export class EditProductComponent implements OnInit {
   }
 
   updateProduct(){
-    
       let observable=this.productsService.updateProduct(this.prodcutToEdit)
-      observable.subscribe((res:any)=>{})
+      observable.subscribe((res:any)=>{},(serverErrorResponse:any) => {
+        alert(serverErrorResponse.error.error)
+      })
       const index= this.productsService.products.findIndex(
         (item:any)=> item.id == this.prodcutToEdit.id
 

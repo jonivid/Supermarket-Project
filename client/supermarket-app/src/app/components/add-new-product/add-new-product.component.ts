@@ -13,12 +13,6 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class AddNewProductComponent implements OnInit {
   newProduct: NewProduct = new NewProduct();
- 
- 
- 
-
-  
-    
   constructor(public categoriesService: CategoriesService, public productsService: ProductsService,
     private router: Router,
     ) {}
@@ -30,8 +24,8 @@ export class AddNewProductComponent implements OnInit {
         this.categoriesService.categories = categoriesList;
 
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
       }
     );
   }
@@ -39,7 +33,9 @@ export class AddNewProductComponent implements OnInit {
 
   createProduct() {
     let observable=this.productsService.createNewProduct(this.newProduct)
-    observable.subscribe((res)=>{})
+    observable.subscribe((res)=>{},(serverErrorResponse) => {
+      alert(serverErrorResponse.error.error)
+    })
     this.router.navigate(['/admin']);
   }
   onChange(e: any) {

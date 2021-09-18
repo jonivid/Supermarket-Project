@@ -4,7 +4,7 @@ const server = express();
 const port = process.env.port || 3001;
 
 const loginFilter = require('./middleware/login-filter')
-const errorHandler =require('./errors/error-handler.js')
+const errorHandler =require('./errors/error-handler')
 
 
 const users = require('./01 - controllers/users-controller')

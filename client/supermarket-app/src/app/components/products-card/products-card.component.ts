@@ -36,7 +36,9 @@ export class ProductsCardComponent implements OnInit {
     dialogConfig.data = data;
     dialogConfig.position={top:"140px"}
     const dialogRef = this.dialog.open(ProductModalComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((data) => this.addToCart(data));
+    dialogRef.afterClosed().subscribe((data) => this.addToCart(data),  (serverErrorResponse) => {
+      alert(serverErrorResponse.error.error);
+    });
   }
   ngOnInit(): void {
   {    
@@ -52,8 +54,8 @@ export class ProductsCardComponent implements OnInit {
       let observableCart = this.cartService.addItemToCart(data);
       observableCart.subscribe(
         (cartItem: CartItem) => {},
-        (error: any) => {
-          console.log(error);
+        (serverErrorResponse) => {
+          alert(serverErrorResponse.error.error);
         }
       );
     }

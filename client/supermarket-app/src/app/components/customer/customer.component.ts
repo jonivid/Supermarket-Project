@@ -18,7 +18,6 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     let cartObservable = this.cartService.getCart(
-      // localStorage.getItem('userId')
     );
     cartObservable.subscribe(
       (cart) => {
@@ -32,32 +31,16 @@ export class CustomerComponent implements OnInit {
             });
           } else if (cart.status === 'close') {
             this.cartStatusMessage =`Your last purchase was in: ${cart.dateCreated}`
-            // let newCartObservable = this.cartService.createNewCart(
-            //   localStorage.getItem('userId')
-            // );
-            // newCartObservable.subscribe(
-            //   (cart) => {
                 this.isCartOpen = 3;
-            //     this.cartService.currentCart = cart;
-            //   },
-            //   (error) => {}
-            // );
           }
         } else if (!cart) {
           this.cartStatusMessage = "Welcome to your first purchase"
-          // let newCartObservable = this.cartService.createNewCart(
-          //   localStorage.getItem('userId')
-          // );
-          // newCartObservable.subscribe(
-          //   (cart) => {
               this.isCartOpen = 3;
-          //     this.cartService.currentCart = cart;
-          //   },
-          //   (error) => {}
-          // );
         }
       },
-      (error) => {}
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
+      }
     );
   }
   toggleCartContainer() {
@@ -70,7 +53,9 @@ export class CustomerComponent implements OnInit {
         // this.isCartOpen = 3;
         this.cartService.currentCart = cart;
       },
-      (error) => {}
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
+      }
     );
   }
   toggleCartContainer2() {

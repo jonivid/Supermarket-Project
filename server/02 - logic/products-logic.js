@@ -1,4 +1,6 @@
 let productsDao = require("../03 - dao/products-dao");
+let ErrorType = require("../errors/error-type");
+let ServerError = require("../errors/server-error");
 
 async function getAllProducts() {
     return await productsDao.getAllProducts();
@@ -18,6 +20,7 @@ async function addProduct(newProductDetails) {
     if (newProductDetails.imageUrl.length > 250) {
         throw new ServerError(ErrorType.IMAGE_URL_TOO_LONG);
     }
+
     return await productsDao.addProduct(newProductDetails);
 }
 

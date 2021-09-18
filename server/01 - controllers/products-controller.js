@@ -3,9 +3,6 @@ const router = express.Router();
 const productsLogic = require('../02 - logic/products-logic')
 const cache = require("../02 - logic/cache-module");
 
-
-
-
 // Get all products
 router.get("/", async (req, res, next) => {
     try {
@@ -16,6 +13,8 @@ router.get("/", async (req, res, next) => {
         return next(error);
     }
 });
+
+//Get products qauntity
 router.get("/quantity", async (req, res, next) => {
     try {
         const allProducts = await productsLogic.getAllProducts();
@@ -31,7 +30,6 @@ router.get("/quantity", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     const newProductDetails = req.body;
 
-
     try {
         const newProduct = await productsLogic.addProduct(newProductDetails);
         res.json(newProduct);
@@ -42,16 +40,11 @@ router.post("/", async (req, res, next) => {
 });
 
 
-
-
-
 // Edit product
 router.put("/", async (req, res, next) => {
 
     const productDetails = req.body;
-    console.log(productDetails);
     try {
-        let user = cache.extractUserDataFromCache(req)
         const updatedProduct = await productsLogic.updateProduct(productDetails);
         res.json(updatedProduct.info);
     }

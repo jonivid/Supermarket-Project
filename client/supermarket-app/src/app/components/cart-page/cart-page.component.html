@@ -1,4 +1,3 @@
-
 <div *ngIf="stateService.isLoggedIn ">
     <div>
         <h1>Cart item list</h1><hr>
@@ -7,22 +6,18 @@
         class="search-by-name">
     </span>
 
-    <div *ngFor='let currentProduct of products | byProductName :textToHighlight' class="item-list" >
-          <p>
-            {{currentProduct.name}}  <b>||</b> Price: {{currentProduct.price}} <br>
+    <div *ngFor='let currentProduct of products | highligtItem :textToHighlight' class="item-list" >
+          <p [class.highlight]="currentProduct.isHighlighted">
+            {{currentProduct.name}} <br>
           </p> 
-          <!-- <p>
-            Price: {{currentProduct.price}}<br>
-          </p>  -->
           <p>
-            Quantity: {{currentProduct.quantity}} <b>||</b> item total price: {{currentProduct.totalPrice}}<br>
+            Quantity: {{currentProduct.quantity}} <b>||</b>Price: {{currentProduct.price}}<br>
           </p> 
-          <!-- <p>
-            item total price: {{currentProduct.totalPrice}}
-          </p>  -->
+          <p>
+           item total price: {{currentProduct.totalPrice}}<br>
+          </p> 
           <img src={{currentProduct.imageUrl}} alt={{currentProduct.name}} class="cart-item-img">
         </div>
-        <p [innerHTML]="productsString | highlightSearch :textToHighlight"></p>
         <hr>
     <div class="order-total">
         total price: {{grandTotal}}
@@ -69,6 +64,7 @@
          (click)="picker.open()" required>
         <mat-datepicker-toggle matSuffix [for]="picker">shipping</mat-datepicker-toggle>
         <mat-datepicker [dateClass]="busyDatesStyle" touchUi  #picker></mat-datepicker><br>
+        <span *ngIf="dateInput.touched && dateInput.errors?.required">"Shipping date is required"</span><br>
 
 
         <button mat-raised-button color="accent" 

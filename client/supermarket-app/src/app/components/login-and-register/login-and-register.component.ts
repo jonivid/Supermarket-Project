@@ -7,7 +7,6 @@ import { UserLoginDetails } from 'src/app/models/UserLoginDetails';
 import { UsersService } from 'src/app/services/users.service';
 import { StateService } from 'src/app/services/state.service';
 import { CartsService } from 'src/app/services/carts.service';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-and-register',
@@ -53,16 +52,17 @@ export class LoginAndRegisterComponent implements OnInit {
     observableOrderCount.subscribe(
       (countResult) => {
       this.ordersCount = countResult[0].ordersNumber;
-    });
+    },(serverErrorResponse) => {
+      alert(serverErrorResponse.error.error)
+    })
 
     let observableProducts = this.productsService.getProductsQuantity();
     observableProducts.subscribe(
       (productsList) => {
-        // console.log(productsList);
         this.productsCount = productsList.length;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error)
       }
     );
   }
@@ -96,7 +96,6 @@ export class LoginAndRegisterComponent implements OnInit {
         this.stepOneLogin = false;
         this.stepOneRegister = false;
         this.stepTwo = true;
-                // this.router.navigate(['/home']);
       },
       (serverErrorResponse) => {
         alert(serverErrorResponse.error.error)
@@ -157,14 +156,7 @@ export class LoginAndRegisterComponent implements OnInit {
         }
       },
       (serverErrorResponse) => {
-        // Reaching here means that the server had failed
-        // serverErrorResponse is the object returned from the ExceptionsHandler
-        alert(
-          'Error! Status: ' +
-            serverErrorResponse.status +
-            ', Message: ' +
-            serverErrorResponse.message
-        );
+        alert(serverErrorResponse.error.error);
       }
     );
   }

@@ -41,12 +41,13 @@ let ErrorType = {
         message: "Password is required.",
         isShowStackTrace: false
     },
-
-    INCORRECT_PASSWORD: {
-        id: 7, httpCode: 606,
-        message: "Incorrect password.",
+    WRONG_LOGIN_DETAILS: {
+        id: 7, httpCode: 607,
+        message: "Wrong login details.",
         isShowStackTrace: false
     },
+
+  
 
     ALL_FIELDS_REQUIRED: {
         id: 8, httpCode: 607,

@@ -1,6 +1,3 @@
-<!-- <div *ngIf="!this.stateService.isLoggedIn">
-    <app-home></app-home>
-</div> -->
 <div class="toggle-btns-container">
     <button mat-stroked-button color="warn" *ngIf="this.isCartMinimize" (click)="this.isCartMinimize=!this.isCartMinimize" >Minimize cart</button>
     <button mat-stroked-button color="primary" *ngIf="!this.isCartMinimize" (click)="!this.isCartMinimize=!this.isCartMinimize">Show cart</button>

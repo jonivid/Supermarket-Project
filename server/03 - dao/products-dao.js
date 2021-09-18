@@ -17,13 +17,10 @@ async function getAllProducts() {
 
 async function addProduct(product) {
     let sql = `INSERT INTO products (name, price, image, category_id) values (?, ?, ?, ?)`;
-    product.name = product.name.toLowerCase();
     let parameters = [product.name, product.price, product.imageUrl, product.categoryId];
     try {
         let response = await connection.executeWithParameters(sql, parameters);
         let newProductId = response.insertId;
-        console.log(newProductId);
-        // return await getNewProduct(newProductId);
     }
     catch (err) {
         throw new ServerError(ErrorType.GENERAL_ERROR, sql, err);
@@ -31,7 +28,6 @@ async function addProduct(product) {
 }
 async function updateProduct(product) {
     let sql = `UPDATE products SET name = ?, price = ?, image = ?, category_id = ? WHERE (id = ?)`;
-    product.name = product.name.toLowerCase();
     let parameters = [product.name, product.price, product.imageUrl, product.categoryId, product.id];
 
     try {

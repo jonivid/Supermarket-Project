@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { HeaderComponent } from '../components/header/header.component';
-import { MenuComponent } from '../components/menu/menu.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -41,6 +40,7 @@ import { AuthenticationInterceptor } from '../interceptors/AuthenticationInterce
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { HighligtItemPipe } from '../pipes/highligt-item.pipe';
 
 
 
@@ -50,7 +50,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
   declarations: [
     LayoutComponent,
     HeaderComponent,
-    MenuComponent,
     FooterComponent,
     AdminComponent,
     CustomerComponent,
@@ -67,6 +66,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     HighlightSearchPipe,
     AddNewProductComponent,
     EditProductComponent,
+    HighligtItemPipe,
   ]
   ,
   imports: [

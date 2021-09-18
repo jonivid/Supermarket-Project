@@ -6,10 +6,7 @@ let cacheModule = require("../02 - logic/cache-module");
 // Get customer's cart
 router.get("/", async (req, res, next) => {
     try {
-
         let userId = cacheModule.extractUserDataFromCache(req).id;
-
-        // let userId = req.params.id
         let customerCart = await cartsLogic.getCustomersCart(userId);
         res.json(customerCart);
     }
@@ -20,7 +17,6 @@ router.get("/", async (req, res, next) => {
 
 // Create new cart
 router.post("/", async (req, res, next) => {
-    // let userId = req.body.id
     let currentDate = req.body.date
     try {
         let userId = cacheModule.extractUserDataFromCache(req).id;
@@ -34,7 +30,6 @@ router.post("/", async (req, res, next) => {
 
 // Get cart's items
 router.get("/items/", async (req, res, next) => {
-    // let cartIt = req.params.cartId
     try {
         let cartItems = await cartsLogic.getCartItems();
         res.json(cartItems);
@@ -48,7 +43,6 @@ router.get("/items/", async (req, res, next) => {
 router.post("/items", async (req, res, next) => {
     let product = req.body.item;
     let cartId =cacheModule.get("cartId");
-    console.log(product, cartId);
     try {
         let newCartItem = await cartsLogic.addToCart(product, cartId);
         res.json(newCartItem);
@@ -58,7 +52,7 @@ router.post("/items", async (req, res, next) => {
     }
 });
 
-// Update on cart
+// Update item inside cart
 router.put("/items", async (req, res, next) => {
     let product = req.body.item;
     let cartId = cacheModule.get("cartId");
@@ -71,7 +65,7 @@ router.put("/items", async (req, res, next) => {
     }
 });
 
-// Remove form cart
+// Remove item inside cart
 router.delete("/items/:prodcutId", async (req, res, next) => {
     let productId = req.params.prodcutId
     let cartId = cacheModule.get("cartId");

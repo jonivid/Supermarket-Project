@@ -4,7 +4,6 @@ let ServerError = require("../errors/server-error");
 
 
 async function registerFirstStep(userRegistrationDetails) {
-
     let sqlEmail = `SELECT * FROM users WHERE email = ?`;
     let paramEmail = [userRegistrationDetails.email];
 
@@ -12,7 +11,6 @@ async function registerFirstStep(userRegistrationDetails) {
     if (email[0]) {
         throw new ServerError(ErrorType.EMAIL_ALREADY_EXIST);
     }
-
     let sqlId = `SELECT * FROM users WHERE id_number = ?`;
     let paramId = [userRegistrationDetails.idNumber];
 
@@ -21,6 +19,7 @@ async function registerFirstStep(userRegistrationDetails) {
         throw new ServerError(ErrorType.ID_ALREADY_EXIST);
     }
 }
+
 async function registerSeconedStep(userRegistrationDetails) {
 
     let sql = `INSERT INTO users ( email, password,first_name, last_name,city,street,id_number)
@@ -30,30 +29,29 @@ async function registerSeconedStep(userRegistrationDetails) {
 
     try {
         await connection.executeWithParameters(sql, parameters)
+        return userRegistrationResult.insertId;
     }
     catch (err) {
-        return userRegistrationResult.insertId;
+        throw new ServerError(ErrorType.GENERAL_ERROR)
     }
 }
 
 async function login(userLoginDetails) {
     let sql = `SELECT id,email, first_name as firstName,last_name as lastName,city,street,is_admin as isAdmin FROM users where email =? and password = ?;`
     let parameters = [userLoginDetails.email, userLoginDetails.password]
-    let userLoginResult = await connection.executeWithParameters(sql, parameters)
-    if (userLoginResult == null || userLoginResult.length == 0) throw new Error('UNAUTHORIZED login details please try again !!!!!')
-    return userLoginResult[0]
-    //[0] we write this because sql return an array and we want the first object inside
-}
-
-async function deleteUser(userId) {
-    let sql = `DELETE from users where id=?`
-    let parameters = [userId];
-    await connection.executeWithParameters(sql, parameters)
-}
+    let userLoginResult
+    try {
+         userLoginResult = await connection.executeWithParameters(sql, parameters)
+    }
+    catch (err) {
+        throw new ServerError(ErrorType.WRONG_LOGIN_DETAILS, sql, err);
+    }
+    if (userLoginResult == null || userLoginResult.length == 0){throw new ServerError(ErrorType.WRONG_LOGIN_DETAILS)}
+    else { return userLoginResult[0] }
+} 
 
 async function isUserNameExist(userName) {
     try {
-        console.log(userName);
         let sql = `SELECT email from users where email=?`
         parameters = [userName]
         const userExistResult = await connection.executeWithParameters(
@@ -64,7 +62,6 @@ async function isUserNameExist(userName) {
             console.log('doesnt exist');
             return false;
         }
-        console.log('exist');
         return true;
     }
     catch (err) {
@@ -92,4 +89,4 @@ async function isUserIdExist(userId) {
 
 }
 
-module.exports = { registerFirstStep, registerSeconedStep, login, deleteUser, isUserNameExist, isUserIdExist }
+module.exports = { registerFirstStep, registerSeconedStep, login, isUserNameExist, isUserIdExist }

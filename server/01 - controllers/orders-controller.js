@@ -14,6 +14,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+//Get orders count
 router.get("/orderscount", async (req, res, next) => {
     try {
         let ordersCount = await ordersLogic.ordersCount();
@@ -28,6 +29,7 @@ router.get("/orderscount", async (req, res, next) => {
 // Make an order
 router.post("/", async (req, res, next) => {
     let orderDetails = req.body;
+    console.log(orderDetails);
     let cartId = cacheModule.get("cartId");
     let userId = cacheModule.extractUserDataFromCache(req).id;
 

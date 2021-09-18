@@ -27,40 +27,36 @@ async function registerSeconedStep(userRegistrationDetails) {
         userRegistrationDetails.street == null || userRegistrationDetails.street == '' ) {
             throw new ServerError(ErrorType.ALL_FIELDS_REQUIRED);
         }
-    
-        
         userRegistrationDetails.password = crypto.createHash("md5").update(saltLeft + userRegistrationDetails.password + saltRight).digest("hex");
         return await usersDao.registerSeconedStep(userRegistrationDetails);
-    // const id = await usersDao.register(userRegistrationDetails)
-    // return id
 
 }
 
 async function login(userLoginDetails) {
     userLoginDetails.password = crypto.createHash("md5").update(saltLeft + userLoginDetails.password + saltRight).digest("hex");
     let userData = await usersDao.login(userLoginDetails)
-    if (userData.isAdmin === 1) {
-        userData.isAdmin = "ADMIN"
+    if(userData){
+
+        if (userData.isAdmin === 1) {
+            userData.isAdmin = "ADMIN"
+        }
+        else {
+            userData.isAdmin = "CUSTOMER"
+        }
+        let saltedUserName = saltLeft + userLoginDetails.userName + saltRight
+        const jwtToken = jwt.sign({ sub: saltedUserName }, config.secret, { expiresIn: '30m' })
+        cacheModule.set(jwtToken, userData)
+        let successfullLoginResponse = { token: jwtToken, isAdmin: userData.isAdmin, userDetails: userData };
+        return successfullLoginResponse;
     }
-    else {
-        userData.isAdmin = "CUSTOMER"
-    }
-    let saltedUserName = saltLeft + userLoginDetails.userName + saltRight
-    const jwtToken = jwt.sign({ sub: saltedUserName }, config.secret, { expiresIn: '30m' })
-    cacheModule.set(jwtToken, userData)//cache setter 
-    let successfullLoginResponse = { token: jwtToken, isAdmin: userData.isAdmin, userDetails: userData };
-    return successfullLoginResponse;
+
+
 }
 
 async function auth(tokenInfo) {
     let userData = cacheModule.extractUserDataFromCache(tokenInfo)
     return (userData)
 }
-async function deleteUser(userId) {
-    await usersDao.deleteUser(userId);
-
-}
-
 
 function validateUserDetails(userDetails){
     if (userDetails.email == null || userDetails.email == '') {
@@ -71,41 +67,5 @@ function validateUserDetails(userDetails){
     }
 }
 
-
-
-// async function validateUserDetails(userRegistrationDetails) {
-//     if (userRegistrationDetails.email == "" || userRegistrationDetails.email == null ) {
-//         throw new Error(`userName is null`)
-//     }
-//     if (!isEmailFormat(userRegistrationDetails.email)) {
-//         throw new Error('UserName is not in email format')
-//     }
-//     if (userRegistrationDetails.password == null) {
-//         throw new Error(`userName is null`)
-//     }
-//     if (userRegistrationDetails.password.length < 6) {
-//         throw new Error(`password too short`)
-//     }
-//     if (userRegistrationDetails.password.length > 12) {
-//         throw new Error(`password too long`)
-//     }
-//     if (await usersDao.isUserNameExist(userRegistrationDetails.email)) {
-//         throw new Error(`userName exists`)
-//     }
-//     if (await usersDao.isUserIdExist(userRegistrationDetails.idNumber)) {
-//         throw new ServerError(ErrorType.ID_ALREADY_EXIST);
-
-//     }
-// }
-// function isEmailFormat(email) {
-//     const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-//     if (emailRegexp.test(email)) {
-//         return true
-//     } else {
-//         return false
-//     }
-// }
-
-
-module.exports = { registerFirstStep,registerSeconedStep, login, deleteUser, auth }
+module.exports = { registerFirstStep,registerSeconedStep, login, auth }
 

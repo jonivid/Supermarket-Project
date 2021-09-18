@@ -10,9 +10,9 @@ async function ordersCount() {
     return await ordersDao.ordersCount();
 }
 
-async function order(orderDetails,cartId,userId) {
+async function order(orderDetails, cartId, userId) {
     validations(orderDetails);
-    let orderNumber= await ordersDao.order(orderDetails,cartId,userId);
+    let orderNumber = await ordersDao.order(orderDetails, cartId, userId);
     await cartDao.emptyCart(cartId)
     return orderNumber
 }
@@ -30,5 +30,5 @@ function validations(order) {
 
 module.exports = {
     getOrdersShipDates,
-    order,ordersCount
+    order, ordersCount
 };

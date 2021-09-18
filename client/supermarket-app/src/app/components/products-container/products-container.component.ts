@@ -29,8 +29,8 @@ export class ProductsContainerComponent implements OnInit {
       (categoriesList) => {
         this.categoriesService.categories = categoriesList;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error);
       }
     );
     let observableProducts = this.productsService.getAllProducts();
@@ -40,14 +40,13 @@ export class ProductsContainerComponent implements OnInit {
         this.productsService.products = [...this.productsService.products]
         this.productsService.products = productsList;
       },
-      (error) => {
-        console.log(error);
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error);
       }
     );
   }
   filterByCategory(category: Category) {
     this.categoryFilter = category.name;
-    // console.log(this.categoryFilter);
   }
   getAllProducts() {
     this.categoryFilter = 'all';

@@ -22,6 +22,8 @@ export class NavbarComponent implements OnInit {
     
     this.cartService.productsList().subscribe((res) => {
       this.products = res;
+    },  (serverErrorResponse) => {
+      alert(serverErrorResponse.error.error);
     });
   }
   logout() {

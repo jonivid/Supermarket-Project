@@ -6,9 +6,7 @@ import { StateService } from 'src/app/services/state.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
 import { CartItem } from 'src/app/models/CartItem';
-import { FormControl, NgForm } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {  NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
@@ -29,10 +27,10 @@ export class CartPageComponent implements OnInit {
   public takenDatesArray: Date[] = [];
   public fileUrl: any;
   public currentDate: Date = new Date();
-  public orderNumber?:number
-  public isModalOpen:boolean=false
-  public isProgressBarOpen:boolean=false
-  public isCompleteBtn:boolean=true
+  public orderNumber?: number;
+  public isModalOpen: boolean = false;
+  public isProgressBarOpen: boolean = false;
+  public isCompleteBtn: boolean = true;
 
   constructor(
     public cartService: CartsService,
@@ -45,32 +43,32 @@ export class CartPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.productsList().subscribe((res) => {
-      this.products=res
+      this.products = res;
       let result = res.map((item: any) => {
         let p = `name : ${item.name}, price : ${item.price}, quantity : ${item.quantity}, totalPrice : ${item.totalPrice} `;
         return p;
       });
       this.productsString = JSON.stringify(result);
       this.grandTotal = this.cartService.getTotalPrice();
+    },(serverErrorResponse) => {
+      alert(serverErrorResponse.error.error)
     });
     this.getOrdersBusyDates();
-    
   }
- 
 
-  completeOrder(orderForm:NgForm) {
+  completeOrder(orderForm: NgForm) {
+    this.userOrderDetails.orderDate = new Date()
+    this.userOrderDetails.orderDate.setHours(+1)
+    this.userOrderDetails.shippingDate?.setHours(+1)
+        this.userOrderDetails.grandTotal = this.grandTotal;
+   
+    
+    let observable = this.ordersService.completeOrder(this.userOrderDetails);
+    observable.subscribe((res) => {
+      console.log(res[0]);
 
-      this.userOrderDetails.orderDate = new Date();
-      this.userOrderDetails.grandTotal = this.grandTotal;
-      let observable = this.ordersService.completeOrder(this.userOrderDetails);
-      observable.subscribe((res) => {
-        console.log(res[0]);
-        
-        this.orderNumber=res[0].id
-        
-     
-     
-     let invoice = `Order number: ${this.orderNumber} 
+      this.orderNumber = res[0].id;
+      let invoice = `Order number: ${this.orderNumber} 
      
      hey ${this.usersService.firstName} thank you for buying in VidalMarket
      
@@ -80,41 +78,38 @@ export class CartPageComponent implements OnInit {
      Shipping date: ${this.userOrderDetails.shippingDate?.toDateString()}
 
      Here is the list of item in your cart:
-     `
-     for(let product of this.products){
-       invoice+= `${product.name} 
+     `;
+      for (let product of this.products) {
+        invoice += `${product.name} 
        Quantiy: ${product.quantity}
        Price: ${product.price}
        Total: ${product.totalPrice}
-       `
-     }
-     invoice+= `
+       `;
+      }
+      invoice += `
      Total Price: ${this.userOrderDetails.grandTotal} $ 
      
      See you again in your next buy
 
-     `
+     `;
       const blob = new Blob([invoice], {
         type: 'text/plain',
       });
-      
-      
-
-        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          window.URL.createObjectURL(blob)
-          );
-          console.log(orderForm.disabled);
-     if(!orderForm.disabled){
-       this.isCompleteBtn=false
-       this.isProgressBarOpen=true
-       setTimeout(() => {
-        this.isProgressBarOpen=false
-        this.isModalOpen=true
-       }, 5000);
-    
-        }
-
-      });
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        window.URL.createObjectURL(blob)
+      );
+      console.log(orderForm.disabled);
+      if (!orderForm.disabled) {
+        this.isCompleteBtn = false;
+        this.isProgressBarOpen = true;
+        setTimeout(() => {
+          this.isProgressBarOpen = false;
+          this.isModalOpen = true;
+        }, 5000);
+      }
+    },(serverErrorResponse) => {
+      alert(serverErrorResponse.error.error)
+    });
   }
 
   acceptOrder() {
@@ -136,22 +131,29 @@ export class CartPageComponent implements OnInit {
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDate();
-    return !this.takenDatesArray.find((date) => date.getDate() == day );
+    return !this.takenDatesArray.find((date) => date.getDate() == day);
   };
-  public busyDatesStyle: MatCalendarCellClassFunction<Date> = (cellDate, view): string => {
+  public busyDatesStyle: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    view
+  ): string => {
     if (view === 'month') {
       const day = cellDate.getTime();
 
-      return (this.takenDatesArray.find(date => date.getTime() == day + 7200000)) ? 'diabled-days' : '';
+      return this.takenDatesArray.find(
+        (date) => date.getTime() == day + 7200000
+      )
+        ? 'diabled-days'
+        : '';
     }
 
     return '';
-  }
+  };
 
-  dblClickStreet(orderForm:NgForm) {
+  dblClickStreet(orderForm: NgForm) {
     orderForm.form.controls.street.setValue(this.ordersService.userStreet);
-} 
- dblClickCity(orderForm:NgForm) {
+  }
+  dblClickCity(orderForm: NgForm) {
     orderForm.form.controls.city.setValue(this.ordersService.userCity);
-} 
+  }
 }

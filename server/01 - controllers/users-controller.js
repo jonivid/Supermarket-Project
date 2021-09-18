@@ -4,35 +4,21 @@ const express = require('express')
 const router = express.Router()
 
 
-// get user by token
-router.get('/:tokenInfo', async (req, res, next) => {
-    try {
-        const tokenInfo = req.params.tokenInfo
-        const result = await usersLogic.auth(tokenInfo)
-        if (result) res.json(result)
 
-    }
-    catch (error) {
-        return next(error);
 
-    }
-})
-
-// register first step
+// Register first step
 router.post('/registerfirststep', async (req, res, next) => {
     try {
         const userRegistrationDetails = req.body;
         await usersLogic.registerFirstStep(userRegistrationDetails)
         res.json()
-
     }
     catch (error) {
         return next(error);
     }
 })
 
-// register seconed step
-
+// Register seconed step
 router.post('/registerseconedstep', async (req, res, next) => {
     try {
         const userRegistrationDetails = req.body;
@@ -52,6 +38,7 @@ router.post('/login', async (req, res, next) => {
         res.json(succsessfullyLoginData)
 
     } catch (error) {
+        console.log(error);
         return next(error);
     }
 })
