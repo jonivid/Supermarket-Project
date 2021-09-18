@@ -15,21 +15,13 @@ export class UsersService {
 
   constructor(private http: HttpClient) {}
 
-  public auth(): Observable<any> {
-    const token = localStorage.getItem('token');
-    // console.log(token);
-    return this.http.get<any>(`http://localhost:3001/users/${token}`);
-  }
-
   public login(
     userLoginDetails: UserLoginDetails
   ): Observable<SuccessfulLoginServerResponse> {
-    //  The http request will be sent after the subscribe() method will be called
     return this.http.post<SuccessfulLoginServerResponse>(
       'http://localhost:3001/users/login',
       userLoginDetails
     );
-    // return this.http.post<SuccessfulLoginServerResponse>("/api/login", userLoginDetails);
   }
   public registerFirstStep(userRegisterDetails: UserDetails): Observable<any> {
     return this.http.post<any>(

@@ -1,4 +1,3 @@
-import { Inject } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class StateService {
   public isLoggedIn: boolean = false;
   public isCartContainer: boolean = false;
+  public isEditProduct: boolean = false;
   constructor() {}
 
   toggleIsCartContainer(): any {

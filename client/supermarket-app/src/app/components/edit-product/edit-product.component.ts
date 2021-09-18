@@ -1,3 +1,4 @@
+import { StateService } from 'src/app/services/state.service';
 import { Product } from './../../models/Product';
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
@@ -13,7 +14,7 @@ export class EditProductComponent implements OnInit {
   public prodcutToEdit:any={}
   constructor(public productsService: ProductsService,
     public categoriesService: CategoriesService,
-    private router: Router,) {}
+    private router: Router,private stateService:StateService) {}
 
   ngOnInit(): void {
     let observableCategories = this.categoriesService.getAllCategories();
@@ -47,10 +48,10 @@ export class EditProductComponent implements OnInit {
         this.productsService.products[index]=this.prodcutToEdit
         }   
 
-      this.router.navigate(['/admin']);
-  
+      // this.router.navigate(['/admin']);
+      this.stateService.isEditProduct=false
+      alert("update completed")  
    
-    console.log("updated",this.prodcutToEdit);
     
   }
 }

@@ -8,6 +8,7 @@
     <aside>
         <app-about-us *ngIf="!this.stateService.isLoggedIn"></app-about-us>
        <app-cart-container *ngIf="this.stateService.isCartContainer"></app-cart-container>
+       <app-edit-product *ngIf="this.stateService.isEditProduct"></app-edit-product>
     </aside>
 
     <main>

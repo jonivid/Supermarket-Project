@@ -65,8 +65,6 @@ export class CartPageComponent implements OnInit {
     
     let observable = this.ordersService.completeOrder(this.userOrderDetails);
     observable.subscribe((res) => {
-      console.log(res[0]);
-
       this.orderNumber = res[0].id;
       let invoice = `Order number: ${this.orderNumber} 
      
@@ -98,7 +96,6 @@ export class CartPageComponent implements OnInit {
       this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         window.URL.createObjectURL(blob)
       );
-      console.log(orderForm.disabled);
       if (!orderForm.disabled) {
         this.isCompleteBtn = false;
         this.isProgressBarOpen = true;

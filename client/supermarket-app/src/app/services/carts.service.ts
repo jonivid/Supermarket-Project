@@ -1,4 +1,3 @@
-import { Product } from 'src/app/models/Product';
 import { CartItem } from './../models/CartItem';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -56,7 +55,6 @@ export class CartsService {
   }
 
   public productsList() {
-    // console.log('testing cart id sent to server: ', this.currentCart.id);
     return this.productList.asObservable();
   }
 
