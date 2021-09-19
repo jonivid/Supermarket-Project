@@ -29,7 +29,7 @@
         <p>
           <mat-form-field appearance="legacy" >
             <mat-label>City</mat-label>
-            <input type="text" matInput placeholder="City" name="city" #cityInput='ngModel'
+            <input [disabled]='this.isInputsDisabled' type="text" matInput placeholder="City" name="city" #cityInput='ngModel'
              [(ngModel)]="userOrderDetails.city" (dblclick)='dblClickCity(orderForm)' required >
           </mat-form-field><br>
           <span *ngIf="cityInput.touched && cityInput.errors?.required">city field is empty"<br></span>
@@ -37,7 +37,7 @@
         <p>
           <mat-form-field appearance="legacy" >
             <mat-label>Street</mat-label>
-            <input type="text" matInput placeholder="Street" name="street" #streetInput='ngModel'
+            <input [disabled]='this.isInputsDisabled' type="text" matInput placeholder="Street" name="street" #streetInput='ngModel'
              [(ngModel)]="userOrderDetails.street" (dblclick)='dblClickStreet(orderForm)' required >
           </mat-form-field><br>
           <span *ngIf="streetInput.touched && streetInput.errors?.required">"street field is empty"</span><br>
@@ -45,7 +45,7 @@
         <p>
           <mat-form-field appearance="legacy" >
             <mat-label>Credit card</mat-label>
-            <input type="number" matInput placeholder="fill 4 last number of your credit card" name="creditCard"
+            <input [disabled]='this.isInputsDisabled' type="number" matInput placeholder="fill 4 last number of your credit card" name="creditCard"
              #creditCardInput='ngModel' [(ngModel)]="userOrderDetails.creditCard" pattern="[0-9]{4}" required >
           </mat-form-field><br>
           <span *ngIf="creditCardInput.touched && creditCardInput.errors?.required">"fill 4 last number of your credit card"</span><br>
@@ -53,7 +53,7 @@
         </p>
         <mat-label>Choose shipping date:</mat-label>
 
-        <input 
+        <input  [class.disabled]='this.isInputsDisabled'
         matInput
          [min]="currentDate" 
          [matDatepicker]="picker" 

@@ -14,6 +14,7 @@ function authenticateJwtRequestToken() {
             '/users/registerfirststep',
             '/users/registerseconedstep',
             '/users/login',
+            '/users/auth',
             '/orders/orderscount',
             '/products/quantity',
             '/products/imagefile',

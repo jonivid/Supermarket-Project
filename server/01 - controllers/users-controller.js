@@ -55,14 +55,14 @@ router.post('/login', async (req, res, next) => {
 // Logout
 router.post("/logout", async (req, res, next) => {
     let token = req.body;
+    console.log(token);
+    // try {
+    //     cacheModule.remove(token);
+    //     response.json();
 
-    try {
-        cacheModule.remove(token);
-        response.json();
-
-    } catch (error) {
-        return next(error);
-    }
+    // } catch (error) {
+    //     return next(error);
+    // }
 });
 
 

@@ -31,6 +31,7 @@ export class CartPageComponent implements OnInit {
   public isModalOpen: boolean = false;
   public isProgressBarOpen: boolean = false;
   public isCompleteBtn: boolean = true;
+  public isInputsDisabled:boolean=false
 
   constructor(
     public cartService: CartsService,
@@ -57,6 +58,7 @@ export class CartPageComponent implements OnInit {
   }
 
   completeOrder(orderForm: NgForm) {
+    
     this.userOrderDetails.orderDate = new Date()
     this.userOrderDetails.orderDate.setHours(+1)
     this.userOrderDetails.shippingDate?.setHours(+1)
@@ -82,6 +84,7 @@ export class CartPageComponent implements OnInit {
        Quantiy: ${product.quantity}
        Price: ${product.price}
        Total: ${product.totalPrice}
+       ----------------------
        `;
       }
       invoice += `
@@ -107,6 +110,7 @@ export class CartPageComponent implements OnInit {
     },(serverErrorResponse) => {
       alert(serverErrorResponse.error.error)
     });
+    this.isInputsDisabled=true
   }
 
   acceptOrder() {

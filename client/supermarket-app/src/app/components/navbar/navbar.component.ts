@@ -1,3 +1,4 @@
+import { observable } from 'rxjs';
 import { CartsService } from './../../services/carts.service';
 import { UsersService } from './../../services/users.service';
 import { StateService } from './../../services/state.service';
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   public products: any[] = [];
+  private token: string =""
   constructor(
     public stateService: StateService,
     public usersService: UsersService,
@@ -19,20 +21,24 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
-    this.cartService.productsList().subscribe((res) => {
-      this.products = res;
-    },  (serverErrorResponse) => {
-      alert(serverErrorResponse.error.error);
-    });
+    this.cartService.productsList().subscribe(
+      (res) => {
+        this.products = res;
+      },
+      (serverErrorResponse) => {
+        alert(serverErrorResponse.error.error);
+      }
+    );
   }
   logout() {
+
     localStorage.removeItem('token');
     localStorage.removeItem('userFirstName');
     localStorage.removeItem('userId');
     this.stateService.isLoggedIn = false;
     this.stateService.isCartContainer = false;
-    this.usersService.isAdmin = "";
+    this.stateService.isEditProduct = false;
+    this.usersService.isAdmin = '';
     this.router.navigate(['/home']);
   }
   toggleCartPage() {
@@ -41,8 +47,7 @@ export class NavbarComponent implements OnInit {
       ? this.router.navigate(['/customer'])
       : this.router.navigate(['/cartpage']);
   }
-  backToProductsPage(){
-    this.router.navigate(['/admin'])
- 
+  backToProductsPage() {
+    this.router.navigate(['/admin']);
   }
 }

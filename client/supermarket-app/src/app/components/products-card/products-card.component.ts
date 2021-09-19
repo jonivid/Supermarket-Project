@@ -41,12 +41,6 @@ export class ProductsCardComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-  {    
-
-
-   }
-
-
 
   }
   addToCart(data: CartItem): void {
