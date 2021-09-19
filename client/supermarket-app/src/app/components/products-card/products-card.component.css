@@ -37,6 +37,7 @@
   transition: width 0.5s;
   background-color: rgb(114, 224, 197);
 }
+
 .edit-product {
   color: rgb(22, 87, 71);
   margin: 10px;
@@ -53,3 +54,10 @@
   background-color: rgb(114, 224, 197);
 }
 
+.edit-product:disabled {
+  color: grey;
+  background-color: rgb(212, 211, 211);
+  transition: none;
+  width: 80px;
+
+}

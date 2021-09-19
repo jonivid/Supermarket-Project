@@ -1,4 +1,5 @@
-<p>edit-product works!</p>
+<div class="edit-product-container">
+
 
 <form #editProductForm='ngForm' >
         <p>
@@ -37,6 +38,7 @@
         <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>
                 
         <button mat-raised-button color="accent" (click)="updateProduct()" [disabled]='editProductForm.form.invalid'>update product</button>
+        <button mat-raised-button color="accent" (click)="cancleChanges()" >Cancel Changes</button>
         
 </form>
-
+</div>

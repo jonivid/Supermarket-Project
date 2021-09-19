@@ -37,6 +37,8 @@ export class EditProductComponent implements OnInit {
   onChange(e: any) {
     this.prodcutToEdit.categoryName = e;
   }
+  cancleChanges(){
+    location.reload();  }
 
   updateProduct(){
       this.prodcutToEdit.categoryId= this.categoriesService.categories.find((category)=>{
