@@ -31,8 +31,8 @@
         <mat-label>Product categoryName</mat-label><br>
         <select [(ngModel)]="this.prodcutToEdit!.categoryName" (ngModelChange)="onChange($event)" name="category" required
         #categoryInput='ngModel' >
-        <option value="" disabled>current: {{this.prodcutToEdit!.categoryName}}</option>
-            <option *ngFor="let category of categoriesService.categories " value="{{category.id}}" >{{category.name}} </option>
+        <option value="" >current: {{this.prodcutToEdit!.categoryName}}</option>
+            <option *ngFor="let category of categoriesService.categories " value="{{category.name}}" >{{category.name}} </option>
         </select><br>
         <span *ngIf="categoryInput.touched && categoryInput.errors?.required">"please choose a catgory"<br></span>
                 

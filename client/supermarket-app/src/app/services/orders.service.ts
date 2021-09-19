@@ -17,8 +17,6 @@ export class OrdersService {
     return this.http.get<any[]>("http://localhost:3001/orders");
   }
   public completeOrder(orderDetails: OrderDetails,): Observable<any> {
-    console.log(orderDetails);
-    
     return this.http.post<OrderDetails>(
       'http://localhost:3001/orders/',
       orderDetails

@@ -61,7 +61,6 @@ export class ProductsCardComponent implements OnInit {
     }
   }
   editProduct(data:Product){
-    console.log(data);
     this.productService.productToEdit= data
     // this.router.navigate(['/editproduct']);
     this.stateService.isEditProduct=true

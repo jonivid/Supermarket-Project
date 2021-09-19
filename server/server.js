@@ -2,9 +2,11 @@ const express = require("express");
 const cors = require('cors');
 const server = express();
 const port = process.env.port || 3001;
+const fileupload = require("express-fileupload")
+
 
 const loginFilter = require('./middleware/login-filter')
-const errorHandler =require('./errors/error-handler')
+const errorHandler = require('./errors/error-handler')
 
 
 const users = require('./01 - controllers/users-controller')
@@ -17,7 +19,7 @@ const orders = require('./01 - controllers/orders-controller')
 
 server.use(express.json());
 server.use(cors({ origin: 'http://localhost:4200' }));
-
+server.use(fileupload())
 server.use(loginFilter())
 
 server.use('/users', users)

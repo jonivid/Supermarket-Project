@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductsService {
   public products: Product[] = [];
-  public productToEdit?:Product
+  public productToEdit?: Product;
 
   constructor(private http: HttpClient) {}
 
@@ -19,18 +19,15 @@ export class ProductsService {
   public getProductsQuantity(): Observable<Product[]> {
     return this.http.get<Product[]>('http://localhost:3001/products/quantity');
   }
-  public createNewProduct(
-    newProductDetails: NewProduct
-  ): Observable<any> {
+  public createNewProduct(newProductDetails: NewProduct): Observable<any> {
     return this.http.post<NewProduct>(
       'http://localhost:3001/products/',
       newProductDetails
-    )}
+    );
+  }
 
-    updateProduct(product: any): any 
-    {
-      return this.http.put(
-        `http://localhost:3001/products`,product
-      );
-    }  
+  public updateProduct(product: any): any {
+    return this.http.put(`http://localhost:3001/products`, product);
+  }
+  
 }

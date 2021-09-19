@@ -37,4 +37,10 @@ export class UsersService {
       userRegisterDetails
     );
   }
+
+  public auth(): Observable<any> {
+    return this.http.get<any>(
+      'http://localhost:3001/users/auth',
+    );
+  }
 }

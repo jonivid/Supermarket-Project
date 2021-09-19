@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const productsLogic = require('../02 - logic/products-logic')
 const cache = require("../02 - logic/cache-module");
+const { v4: uuidv4 } = require('uuid');
+var fs = require('file-system');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 
 // Get all products
 router.get("/", async (req, res, next) => {
@@ -52,5 +57,7 @@ router.put("/", async (req, res, next) => {
         return next(error);
     }
 });
+
+
 
 module.exports = router;

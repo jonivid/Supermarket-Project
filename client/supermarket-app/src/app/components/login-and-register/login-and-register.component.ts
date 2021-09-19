@@ -109,7 +109,6 @@ export class LoginAndRegisterComponent implements OnInit {
     );
     registerObservable.subscribe(
       (successfulServerRequestData) => {
-        // console.log(successfulServerRequestData);
         this.handleSignIn() 
         this.userLoginDetails.email=this.userRegisterDetails.email 
         this.userLoginDetails.password=this.userRegisterDetails.password

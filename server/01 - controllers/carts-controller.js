@@ -42,7 +42,7 @@ router.get("/items/", async (req, res, next) => {
 // Add to cart
 router.post("/items", async (req, res, next) => {
     let product = req.body.item;
-    let cartId =cacheModule.get("cartId");
+    let cartId = cacheModule.get("cartId");
     try {
         let newCartItem = await cartsLogic.addToCart(product, cartId);
         res.json(newCartItem);

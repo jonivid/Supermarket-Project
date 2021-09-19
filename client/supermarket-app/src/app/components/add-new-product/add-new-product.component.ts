@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploadValidators } from '@iplab/ngx-file-upload';
 import { NewProduct } from 'src/app/models/NewProduct';
@@ -14,7 +15,7 @@ import { ProductsService } from 'src/app/services/products.service';
 export class AddNewProductComponent implements OnInit {
   newProduct: NewProduct = new NewProduct();
   constructor(public categoriesService: CategoriesService, public productsService: ProductsService,
-    private router: Router,
+    private router: Router,private http: HttpClient
     ) {}
 
   ngOnInit(): void {
@@ -42,8 +43,4 @@ export class AddNewProductComponent implements OnInit {
     this.newProduct.categoryId = e;
   }
 
-
-
-
-  
 }

@@ -2,7 +2,7 @@
 
 
 
-<form #registerForm='ngForm' enctype="multipart/form-data">
+<form #addNewProduct='ngForm' enctype="multipart/form-data">
     <p>
         <mat-form-field appearance="legacy" >
           <mat-label>Product name</mat-label>
@@ -36,14 +36,6 @@
      </select><br>
      <span *ngIf="categoryInput.errors?.required">"please choose a catgory"<br></span>    
 
-
-
-     <file-upload [(ngModel)]="newProduct.image" name="files" accept="file_extension|image/*" 
-     #productImageFileInput='ngModel' [fileslimit]="1" ></file-upload>
-     <span *ngIf="productImageFileInput.errors?.required && productImageFileInput.touched">"upload img is must"<br></span>    
-
-
-
-    <button mat-raised-button color="accent" (click)="createProduct()"   [disabled]='registerForm.form.invalid'>Create</button>
+    <button mat-raised-button color="accent" (click)="createProduct()"   [disabled]='addNewProduct.form.invalid'>Create</button>
 
 </form>

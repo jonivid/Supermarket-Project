@@ -1,3 +1,4 @@
+import { Category } from 'src/app/models/Category';
 import { StateService } from 'src/app/services/state.service';
 import { Product } from './../../models/Product';
 import { Component, OnInit } from '@angular/core';
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class EditProductComponent implements OnInit {
   public prodcutToEdit:any={}
+  public categoryName:string=""
   constructor(public productsService: ProductsService,
     public categoriesService: CategoriesService,
     private router: Router,private stateService:StateService) {}
@@ -20,6 +22,8 @@ export class EditProductComponent implements OnInit {
     let observableCategories = this.categoriesService.getAllCategories();
     observableCategories.subscribe(
       (categoriesList) => {
+        // console.log(categoriesList);
+        
         this.categoriesService.categories = categoriesList;
 
       },
@@ -31,10 +35,14 @@ export class EditProductComponent implements OnInit {
   }
 
   onChange(e: any) {
-    this.prodcutToEdit.categoryId = e;
+    this.prodcutToEdit.categoryName = e;
   }
 
   updateProduct(){
+      this.prodcutToEdit.categoryId= this.categoriesService.categories.find((category)=>{
+        return category.name === this.prodcutToEdit.categoryName
+      })?.id
+      
       let observable=this.productsService.updateProduct(this.prodcutToEdit)
       observable.subscribe((res:any)=>{},(serverErrorResponse:any) => {
         alert(serverErrorResponse.error.error)
@@ -47,11 +55,7 @@ export class EditProductComponent implements OnInit {
         this.productsService.products=[...this.productsService.products]
         this.productsService.products[index]=this.prodcutToEdit
         }   
-
-      // this.router.navigate(['/admin']);
       this.stateService.isEditProduct=false
       alert("update completed")  
-   
-    
   }
 }

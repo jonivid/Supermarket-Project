@@ -21,6 +21,8 @@ footer {
 }
 
 aside {
+  min-height: 300px;
+
   min-width: 380px;
   overflow-y: scroll;
   grid-column: span 3;

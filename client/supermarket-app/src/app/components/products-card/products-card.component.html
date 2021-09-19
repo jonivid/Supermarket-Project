@@ -2,10 +2,11 @@
 <div class='card'>
     <h4 class="p-name">{{data.name}}</h4>
     <p>{{data.price}}</p>
+    <p>{{data.categoryName}}</p>
     <img src={{data.imageUrl}} class='product-img'>
     <input  *ngIf="this.usersService.isAdmin==='CUSTOMER' && this.stateService.isLoggedIn" type="button" value="add to cart" class="add-to-cart"
      (click)="openDialog(data)">
-    <button matTooltip="Click to edit product" matTooltipPosition="left" class="edit-product" (click)='editProduct(data)'
+    <button matTooltip="Click to edit product" matTooltipPosition="left" class="edit-product" (click)='editProduct(data)' [disabled]="this.stateService.isEditProduct"
     *ngIf="this.usersService.isAdmin==='ADMIN' && this.stateService.isLoggedIn"><mat-icon aria-hidden="false" aria-label="e8cc">edit</mat-icon></button>
 </div>
 

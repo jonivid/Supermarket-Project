@@ -20,7 +20,6 @@ export class ProductModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.data);
   }
   increment() {
     this.quantity++;
