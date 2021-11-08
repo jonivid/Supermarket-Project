@@ -1,0 +1,7 @@
+In this project i was assigned to create an online supremarket. every user that will signin succsesfully could make an online order of prodcuts and get them with a delivery to his home address.
+inside the system there are two kinds of permissions:
+admin: incharge of managing the store products : add or edit only.
+user: can signUp to create a new user , can signIn with existing user details , search for products by name or category , add product to cart , delete product from cart , manage quantity of products, save unfinished cart, submit and complete order with address for shipping , date of shipping and credit card and getting invoice after completing purchase.
+
+Personally had a good time doing this project. coding with Angular was surprisingly a lot fun and intuitive.
+i got the chance of using a lot of new technique that i didnt know before or saw when i used React . although some parts of the project were difficults at first, but after some researching and practicing i got to the solution i needed.
